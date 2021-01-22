@@ -43,7 +43,8 @@ function enterSquare(){
     .on("mouseover", handleMouseOver)
     .on("mouseout", handleMouseOut)
     .on("click", handleClick)
-    .style("stroke", "black");
+    .style("stroke", "black")
+    .style("fill","grey");
 }
 
 function render(sec){
