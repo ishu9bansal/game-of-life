@@ -7,17 +7,20 @@ var svg = d3.select("svg")
     .attr("class", "svg-container")
     .style("background-color", "black");
 var grid = [];
-for(i=0; i<rows; i++){
-    var temp = [];
-    for(j=0; j<cols; j++){
-        data.push({
-            x: i,
-            y: j
-        });
-        temp.push(Math.random() < 0.5);
+function init(){
+    for(i=0; i<rows; i++){
+        var temp = [];
+        for(j=0; j<cols; j++){
+            data.push({
+                x: i,
+                y: j
+            });
+            temp.push(0);
+        }
+        grid.push(temp);
     }
-    grid.push(temp);
 }
+init();
 
 var squares = svg.selectAll(".square")
     .data(data)
@@ -31,9 +34,12 @@ var squares = svg.selectAll(".square")
 
 function update(){
     squares.style("fill", function(d) {
-        // return grid[d.x][d.y] ? "white" : "black";
-        return Math.random() < 0.5 ? "white" : "black";
+        return grid[d.x][d.y] ? "white" : "black";
     });
 }
 
-
+function random(){
+    for(i=0; i<rows; i++)
+        for(j=0; j<cols; j++)
+            grid[i][j] = Math.floor(Math.random()*2);
+}
