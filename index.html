@@ -9,9 +9,12 @@
       <input id="randomButton" type="button" value="Random" onclick="random()" />
       <input id="updateButton" type="button" value="Evolve" onclick="update()" />
       <input id="evolveButton" type="button" value="Play" onclick="evolve()" />
+      <label for="resolution">Resolution (between 1 and 50):</label>
       <input id="resolution" type="range" min=1 max=50 value=50 oninput="handleChange()" />
-      <input id="rows" type="range" min=3 max=20 value=10 oninput="handleChange()" />
-      <input id="cols" type="range" min=3 max=20 value=10 oninput="handleChange()" />
+      <label for="rows">Rows (between 3 and 1000):</label>
+      <input id="rows" type="range" min=3 max=1000 value=10 oninput="handleChange()" />
+      <label for="cols">Columns (between 3 and 1000):</label>
+      <input id="cols" type="range" min=3 max=1000 value=10 oninput="handleChange()" />
     </div>
     <br>
     <div>
