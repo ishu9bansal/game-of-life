@@ -4,7 +4,13 @@ var data = [];
 var grid = [];
 var dirs = [0,1,1,0,-1,-1,1,-1,0];
 var stop = 0;
-function init(){
+function initData(){
+    data = [];
+    newg = [];
+    resolution = document.getElementById("resolution").value;
+    rows = document.getElementById("rows").value;
+    cols = document.getElementById("cols").value;
+
     for(i=0; i<rows; i++){
         var temp = [];
         for(j=0; j<cols; j++){
@@ -12,12 +18,16 @@ function init(){
                 x: i,
                 y: j
             });
-            temp.push(0);
+            if(i<grid.length&&j<grid[i].length)
+                temp.push(grid[i][j]);
+            else
+                temp.push(0);
         }
-        grid.push(temp);
+        newg.push(temp);
     }
+    grid = newg;
 }
-init();
+initData();
 
 var svg = d3.select("svg")
     .attr("width", resolution*cols)
@@ -25,22 +35,26 @@ var svg = d3.select("svg")
     .attr("class", "svg-container")
     .style("background-color", "black");
 
-var squares = svg.selectAll(".square")
-    .data(data)
+var squares = svg.selectAll(".square").data(data);
+
+function enterSquare(){
+    squares
     .enter().append("rect")
     .attr("class","square")
-    .attr("x", function(d) { return resolution*d.x; })
-    .attr("y", function(d) { return resolution*d.y; })
     .attr("width", resolution)
     .attr("height", resolution)
     .on("mouseover", handleMouseOver)
     .on("mouseout", handleMouseOut)
     .on("click", handleClick)
     .style("stroke", "black");
+}
+enterSquare();
 
-function render(){
+function render(sec){
     squares
-    .transition().duration(250)
+    .transition().duration(sec)
+    .attr("x", function(d) { return resolution*d.x; })
+    .attr("y", function(d) { return resolution*d.y; })
     .style("fill", function(d) {
         return grid[d.x][d.y] ? "white" : "black";
     });
@@ -50,7 +64,7 @@ function random(){
     for(i=0; i<rows; i++)
         for(j=0; j<cols; j++)
             grid[i][j] = Math.floor(Math.random()*2);
-    render();
+    render(500);
 }
 
 function update(){
@@ -70,7 +84,7 @@ function update(){
     for(i=0; i<rows; i++)
         for(j=0; j<cols; j++)
             grid[i][j] = Math.floor(grid[i][j]/2);
-    render();
+    render(250);
 }
 
 function handleMouseOver(d,i){
@@ -102,4 +116,17 @@ function evolve(){
     }
     else    stop = setInterval(update, 500);
     renderAnimateButtonText();
+}
+
+function handleChange(){
+    if(stop) evolve();
+    initData();
+    svg.transition().duration(750)
+    .attr("width", resolution*cols)
+    .attr("height", resolution*rows);
+
+    squares = svg.selectAll(".square").data(data);
+    enterSquare();
+    squares.exit().remove();
+    render(750);
 }
