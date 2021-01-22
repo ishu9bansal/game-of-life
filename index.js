@@ -41,8 +41,6 @@ function enterSquare(){
     squares
     .enter().append("rect")
     .attr("class","square")
-    .attr("width", resolution)
-    .attr("height", resolution)
     .on("mouseover", handleMouseOver)
     .on("mouseout", handleMouseOut)
     .on("click", handleClick)
@@ -53,6 +51,8 @@ enterSquare();
 function render(sec){
     squares
     .transition().duration(sec)
+    .attr("width", resolution)
+    .attr("height", resolution)
     .attr("x", function(d) { return resolution*d.x; })
     .attr("y", function(d) { return resolution*d.y; })
     .style("fill", function(d) {
