@@ -51,8 +51,8 @@ function evolve(){
         for(j=0; j<cols; j++){
             var c = 0;
             for(k=0; k<8; k++){
-                var I = i+dir[k];
-                var J = j+dir[k+1];
+                var I = i+dirs[k];
+                var J = j+dirs[k+1];
                 if(I>=0&&I<rows&&J>=0&&J<cols)
                     c += grid[I][J]%2;
             }
