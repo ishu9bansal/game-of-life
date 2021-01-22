@@ -1,15 +1,19 @@
 <html>
-    <head>
-        <link rel="stylesheet" href="index.css">
-        <title>Game of Life</title>
-    </head>
-    <body>
-        <h1>Life</h1>
-        <svg></svg>
-        <input id="randomButton" type="button" value="Random" onclick="random()" />
-        <input id="updateButton" type="button" value="Evolve" onclick="update()" />
-        <input id="evolveButton" type="button" value="Play" onclick="evolve()" />
-        <script src="https://d3js.org/d3.v4.min.js"></script>
-        <script src="index.js"></script>
-    </body>
+  <head>
+    <link rel="stylesheet" href="index.css">
+    <title>Game of Life</title>
+  </head>
+  <body>
+    <h1>Life</h1>
+    <div>
+      <input id="randomButton" type="button" value="Random" onclick="random()" />
+      <input id="updateButton" type="button" value="Evolve" onclick="update()" />
+      <input id="evolveButton" type="button" value="Play" onclick="evolve()" />
+    </div>
+    <div>
+      <svg></svg>
+    </div>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="index.js"></script>
+  </body>
 </html>
