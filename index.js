@@ -50,7 +50,7 @@ function render(sec){
     .attr("x", function(d) { return resolution*d.x; })
     .attr("y", function(d) { return resolution*d.y; })
     .style("fill", function(d) {
-        return grid[d.x][d.y] ? "white" : "black";
+        return grid[d.y][d.x] ? "white" : "black";
     });
 }
 
@@ -91,12 +91,12 @@ function handleMouseOut(d,i){
     d3.select(this)
     .transition().duration(250)
     .style("fill", function(d) {
-        return grid[d.x][d.y] ? "white" : "black";
+        return grid[d.y][d.x] ? "white" : "black";
     });
 }
 
 function handleClick(d,i){
-    grid[d.x][d.y] = 1-grid[d.x][d.y];
+    grid[d.y][d.x] = 1-grid[d.y][d.x];
 }
 
 function renderAnimateButtonText(){
