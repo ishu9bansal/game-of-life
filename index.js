@@ -92,7 +92,7 @@ function handleClick(d,i){
 }
 
 function renderAnimateButtonText(){
-    document.getElementsById("animateButton").setAttribute("value", stop?"Pause":"Play")
+    document.getElementById("animateButton").setAttribute("value", stop?"Pause":"Play")
 }
 
 function evolve(){
