@@ -3,6 +3,7 @@ var resolution = 50;
 var data = [];
 var grid = [];
 var dirs = [0,1,1,0,-1,-1,1,-1,0];
+var stop = 0;
 function init(){
     for(i=0; i<rows; i++){
         var temp = [];
@@ -88,4 +89,17 @@ function handleMouseOut(d,i){
 
 function handleClick(d,i){
     grid[d.x][d.y] = 1-grid[d.x][d.y];
+}
+
+function updateAnimateButtonText(){
+    document.getElementsById("animateButton").setAttribute("value", stop?"Pause":"Play")
+}
+
+function animate(){
+    if(stop){
+        clearInterval(stop);
+        stop = 0;
+    }
+    else    stop = setInterval(evolve, 500);
+    updateAnimateButtonText();
 }
