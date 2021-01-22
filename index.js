@@ -106,7 +106,7 @@ function handleClick(d,i){
 }
 
 function renderAnimateButtonText(){
-    document.getElementById("animateButton").setAttribute("value", stop?"Pause":"Play")
+    document.getElementById("evolveButton").setAttribute("value", stop?"Pause":"Play");
 }
 
 function evolve(){
