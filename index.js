@@ -18,8 +18,8 @@ function initData(){
         var temp = [];
         for(j=0; j<cols; j++){
             data.push({
-                x: i,
-                y: j
+                x: j,
+                y: i
             });
             if(i<grid.length&&j<grid[i].length)
                 temp.push(grid[i][j]);
