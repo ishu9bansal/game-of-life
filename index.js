@@ -2,6 +2,7 @@ var rows = 10, cols = 10;
 var resolution = 50;
 var data = [];
 var grid = [];
+var dirs = [0,1,1,0,-1,-1,1,-1,0];
 function init(){
     for(i=0; i<rows; i++){
         var temp = [];
@@ -43,4 +44,24 @@ function random(){
     for(i=0; i<rows; i++)
         for(j=0; j<cols; j++)
             grid[i][j] = Math.floor(Math.random()*2);
+}
+
+function evolve(){
+    for(i=0; i<rows; i++){
+        for(j=0; j<cols; j++){
+            var c = 0;
+            for(k=0; k<8; k++){
+                var I = i+dir[k];
+                var J = j+dir[k+1];
+                if(I>=0&&I<rows&&J>=0&&J<cols)
+                    c += grid[I][J]%2;
+            }
+            if(c==3||(c==2&&grid[i][j]==1))
+                grid[i][j] += 2;
+        }
+    }
+    for(i=0; i<rows; i++)
+        for(j=0; j<cols; j++)
+            grid[i][j] = Math.floor(grid[i][j]/2);
+    update();
 }
