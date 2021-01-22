@@ -5,6 +5,7 @@ var grid = [];
 var dirs = [0,1,1,0,-1,-1,1,-1,0];
 var stop = 0;
 var squares;
+var svg = null;
 
 function initData(){
     data = [];
@@ -29,12 +30,6 @@ function initData(){
     }
     grid = newg;
 }
-
-var svg = d3.select("svg")
-    .attr("width", resolution*cols)
-    .attr("height", resolution*rows)
-    .attr("class", "svg-container")
-    .style("background-color", "black");
 
 function enterSquare(){
     squares
@@ -120,7 +115,14 @@ function evolve(){
 function handleChange(){
     if(stop) evolve();
     initData();
-    svg.transition().duration(750)
+    if(svg==null){
+        svg = d3.select("svg")
+        .attr("width", 1)
+        .attr("height", 1)
+        .attr("class", "svg-container")
+        .style("background-color", "black");
+    }
+    svg.transition().duration(500)
     .attr("width", resolution*cols)
     .attr("height", resolution*rows);
 
