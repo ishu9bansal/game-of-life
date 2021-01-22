@@ -38,7 +38,9 @@ var squares = svg.selectAll(".square")
     .style("stroke", "black");
 
 function update(){
-    squares.style("fill", function(d) {
+    squares
+    .transition().duration(250)
+    .style("fill", function(d) {
         return grid[d.x][d.y] ? "white" : "black";
     });
 }
@@ -71,11 +73,15 @@ function evolve(){
 }
 
 function handleMouseOver(d,i){
-    d3.select(this).style("fill", "grey");
+    d3.select(this)
+    .transition().duration(250)
+    .style("fill", "grey");
 }
 
 function handleMouseOut(d,i){
-    d3.select(this).style("fill", function(d) {
+    d3.select(this)
+    .transition().duration(250)
+    .style("fill", function(d) {
         return grid[d.x][d.y] ? "white" : "black";
     });
 }
