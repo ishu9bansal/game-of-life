@@ -1,11 +1,6 @@
 var rows = 10, cols = 10;
 var resolution = 50;
 var data = [];
-var svg = d3.select("svg")
-    .attr("width", resolution*cols)
-    .attr("height", resolution*rows)
-    .attr("class", "svg-container")
-    .style("background-color", "black");
 var grid = [];
 function init(){
     for(i=0; i<rows; i++){
@@ -21,6 +16,12 @@ function init(){
     }
 }
 init();
+
+var svg = d3.select("svg")
+    .attr("width", resolution*cols)
+    .attr("height", resolution*rows)
+    .attr("class", "svg-container")
+    .style("background-color", "black");
 
 var squares = svg.selectAll(".square")
     .data(data)
