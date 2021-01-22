@@ -132,4 +132,4 @@ function handleChange(){
     render(750);
 }
 
-handleChange();
+setTimeout(handleChange, 1000);
