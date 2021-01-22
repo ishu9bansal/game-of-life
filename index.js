@@ -32,6 +32,9 @@ var squares = svg.selectAll(".square")
     .attr("y", function(d) { return resolution*d.y; })
     .attr("width", resolution)
     .attr("height", resolution)
+    .on("mouseover", handleMouseOver)
+    .on("mouseout", handleMouseOut)
+    .on("click", handleClick)
     .style("stroke", "black");
 
 function update(){
@@ -44,6 +47,7 @@ function random(){
     for(i=0; i<rows; i++)
         for(j=0; j<cols; j++)
             grid[i][j] = Math.floor(Math.random()*2);
+    update();
 }
 
 function evolve(){
@@ -64,4 +68,18 @@ function evolve(){
         for(j=0; j<cols; j++)
             grid[i][j] = Math.floor(grid[i][j]/2);
     update();
+}
+
+function handleMouseOver(d,i){
+    d3.select(this).style("fill", "grey");
+}
+
+function handleMouseOut(d,i){
+    d3.select(this).style("fill", function(d) {
+        return grid[d.x][d.y] ? "white" : "black";
+    });
+}
+
+function handleClick(d,i){
+    grid[d.x][d.y] = 1-grid[d.x][d.y];
 }
