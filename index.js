@@ -38,7 +38,7 @@ var squares = svg.selectAll(".square")
     .on("click", handleClick)
     .style("stroke", "black");
 
-function update(){
+function render(){
     squares
     .transition().duration(250)
     .style("fill", function(d) {
@@ -50,10 +50,10 @@ function random(){
     for(i=0; i<rows; i++)
         for(j=0; j<cols; j++)
             grid[i][j] = Math.floor(Math.random()*2);
-    update();
+    render();
 }
 
-function evolve(){
+function update(){
     for(i=0; i<rows; i++){
         for(j=0; j<cols; j++){
             var c = 0;
@@ -70,7 +70,7 @@ function evolve(){
     for(i=0; i<rows; i++)
         for(j=0; j<cols; j++)
             grid[i][j] = Math.floor(grid[i][j]/2);
-    update();
+    render();
 }
 
 function handleMouseOver(d,i){
@@ -91,15 +91,15 @@ function handleClick(d,i){
     grid[d.x][d.y] = 1-grid[d.x][d.y];
 }
 
-function updateAnimateButtonText(){
+function renderAnimateButtonText(){
     document.getElementsById("animateButton").setAttribute("value", stop?"Pause":"Play")
 }
 
-function animate(){
+function evolve(){
     if(stop){
         clearInterval(stop);
         stop = 0;
     }
-    else    stop = setInterval(evolve, 500);
-    updateAnimateButtonText();
+    else    stop = setInterval(update, 500);
+    renderAnimateButtonText();
 }
