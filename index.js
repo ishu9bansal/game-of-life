@@ -4,6 +4,8 @@ var data = [];
 var grid = [];
 var dirs = [0,1,1,0,-1,-1,1,-1,0];
 var stop = 0;
+var squares;
+
 function initData(){
     data = [];
     newg = [];
@@ -27,15 +29,12 @@ function initData(){
     }
     grid = newg;
 }
-initData();
 
 var svg = d3.select("svg")
     .attr("width", resolution*cols)
     .attr("height", resolution*rows)
     .attr("class", "svg-container")
     .style("background-color", "black");
-
-var squares = svg.selectAll(".square").data(data);
 
 function enterSquare(){
     squares
@@ -46,7 +45,6 @@ function enterSquare(){
     .on("click", handleClick)
     .style("stroke", "black");
 }
-enterSquare();
 
 function render(sec){
     squares
@@ -130,3 +128,5 @@ function handleChange(){
     squares.exit().remove();
     render(750);
 }
+
+handleChange();
