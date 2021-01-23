@@ -35,6 +35,8 @@ function enterSquare(){
     squares
     .enter().append("rect")
     .attr("class","square")
+    .attr("x", resolution*Math.floor(Math.random()*cols))
+    .attr("y", resolution*Math.floor(Math.random()*rows))
     .on("mouseover", handleMouseOver)
     .on("mouseout", handleMouseOut)
     .on("click", handleClick)
@@ -42,16 +44,25 @@ function enterSquare(){
     .style("fill","grey");
 }
 
-function render(sec){
-    squares
-    .transition().duration(sec)
-    .attr("width", resolution)
-    .attr("height", resolution)
-    .attr("x", function(d) { return resolution*d.x; })
-    .attr("y", function(d) { return resolution*d.y; })
-    .style("fill", function(d) {
-        return grid[d.y][d.x] ? "white" : "black";
-    });
+function render(sec, translation = false){
+    if(translation){
+        squares
+        .transition().duration(sec)
+        .attr("width", resolution)
+        .attr("height", resolution)
+        .attr("x", function(d) { return resolution*d.x; })
+        .attr("y", function(d) { return resolution*d.y; })
+        .style("fill", function(d) {
+            return grid[d.y][d.x] ? "white" : "black";
+        });
+    }
+    else{
+        squares
+        .transition().duration(sec)
+        .style("fill", function(d) {
+            return grid[d.y][d.x] ? "white" : "black";
+        });
+    }
 }
 
 function random(){
@@ -139,7 +150,7 @@ function handleChange(){
     enterSquare();
     squares.exit().remove();
     squares = svg.selectAll(".square");
-    render(750);
+    render(750, true);
 }
 
 handleChange();
