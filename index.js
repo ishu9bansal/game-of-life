@@ -6,8 +6,8 @@ var dirs = [0,1,1,0,-1,-1,1,-1,0];
 var stop = 0;
 var squares;
 var svg = null;
-var delay = 500;
-var transition = 250;
+var delay = 100;
+var transition = 150;
 
 function initData(){
     data = [];
@@ -136,10 +136,10 @@ function evolve(){
     renderAnimateButtonText();
 }
 
-function handleDelay(){
-    delay = document.getElementById("delay").value;
-    transition = document.getElementById("transition").value;
-}
+// function handleDelay(){
+//     delay = document.getElementById("delay").value;
+//     transition = document.getElementById("transition").value;
+// }
 
 function handleChange(){
     if(stop) evolve();
