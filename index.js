@@ -61,6 +61,13 @@ function random(){
     render(500);
 }
 
+function reset(){
+    for(i=0; i<rows; i++)
+        for(j=0; j<cols; j++)
+            grid[i][j] = 0;
+    render(500);
+}
+
 function update(){
     for(i=0; i<rows; i++){
         for(j=0; j<cols; j++){
