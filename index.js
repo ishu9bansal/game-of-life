@@ -78,10 +78,16 @@ function random(){
     render(500);
 }
 
-function reset(){
+function reset(pattern = null){
     for(i=0; i<rows; i++)
         for(j=0; j<cols; j++)
             grid[i][j] = 0;
+    if(pattern && pattern["maxx"]<cols && pattern["maxy"]<rows){
+        arr = pattern["arr"];
+        for (var i = 0; i < arr.length; i++) {
+            grid[arr[i][1]][arr[i][0]] = 1;
+        }
+    }
     render(500);
 }
 
