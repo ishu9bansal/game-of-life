@@ -6,6 +6,8 @@ var dirs = [0,1,1,0,-1,-1,1,-1,0];
 var stop = 0;
 var squares;
 var svg = null;
+var delay = 500;
+var transition = 250;
 
 function initData(){
     data = [];
@@ -100,7 +102,7 @@ function update(){
     for(i=0; i<rows; i++)
         for(j=0; j<cols; j++)
             grid[i][j] = Math.floor(grid[i][j]/2);
-    render(250);
+    render(transition);
 }
 
 function handleMouseOver(d,i){
@@ -130,8 +132,13 @@ function evolve(){
         clearInterval(stop);
         stop = 0;
     }
-    else    stop = setInterval(update, 500);
+    else    stop = setInterval(update, delay);
     renderAnimateButtonText();
+}
+
+function handleDelay(){
+    delay = document.getElementById("delay").value;
+    transition = document.getElementById("transition").value;
 }
 
 function handleChange(){
