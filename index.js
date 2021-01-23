@@ -13,9 +13,9 @@ var universe = "box";
 function initData(){
     data = [];
     newg = [];
-    resolution = document.getElementById("resolution").value;
-    rows = document.getElementById("rows").value;
-    cols = document.getElementById("cols").value;
+    resolution = parseInt(document.getElementById("resolution").value);
+    rows = parseInt(document.getElementById("rows").value);
+    cols = parseInt(document.getElementById("cols").value);
 
     for(i=0; i<rows; i++){
         var temp = [];
