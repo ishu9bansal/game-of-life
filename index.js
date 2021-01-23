@@ -129,7 +129,8 @@ function handleChange(){
     squares = svg.selectAll(".square").data(data);
     enterSquare();
     squares.exit().remove();
+    squares = svg.selectAll(".square").data(data);
     render(750);
 }
 
-setTimeout(handleChange, 1000);
+handleChange();
