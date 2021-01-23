@@ -35,8 +35,12 @@ function enterSquare(){
     squares
     .enter().append("rect")
     .attr("class","square")
-    .attr("x", resolution*Math.floor(Math.random()*cols))
-    .attr("y", resolution*Math.floor(Math.random()*rows))
+    .attr("x", function(d) {
+        return resolution*Math.floor(Math.random()*cols);
+    })
+    .attr("y", function(d) {
+        return resolution*Math.floor(Math.random()*rows);
+    })
     .on("mouseover", handleMouseOver)
     .on("mouseout", handleMouseOut)
     .on("click", handleClick)
