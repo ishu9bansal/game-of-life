@@ -8,6 +8,7 @@ var squares;
 var svg = null;
 var delay = 100;
 var transition = 150;
+var universe = "box";
 
 function initData(){
     data = [];
@@ -78,7 +79,12 @@ function random(){
     render(500);
 }
 
-function reset(pattern = null){
+function reset(){
+    reset_type = document.getElementById("reset").value;
+    pattern = null;
+    if(reset_type=="gosper"){
+        pattern = gosper_gun;
+    }
     for(i=0; i<rows; i++)
         for(j=0; j<cols; j++)
             grid[i][j] = 0;
@@ -91,17 +97,27 @@ function reset(pattern = null){
     render(500);
 }
 
+function changeUniverse(){
+    universe = document.getElementById("universe").value;
+}
+
+function neighbor_active(i,j,k){
+    var I = i+dirs[k];
+    var J = j+dirs[k+1];
+    if(universe=="torus"){
+        I = (I+rows)%rows;
+        J = (J+cols)%cols;
+    }
+    return I>=0&&I<rows&&J>=0&&J<cols ? grid[I][J]%2 : 0;
+}
+
 function update(){
     for(i=0; i<rows; i++){
         for(j=0; j<cols; j++){
             var c = 0;
-            for(k=0; k<8; k++){
-                var I = i+dirs[k];
-                var J = j+dirs[k+1];
-                if(I>=0&&I<rows&&J>=0&&J<cols)
-                    c += grid[I][J]%2;
-            }
-            if(c==3||(c==2&&grid[i][j]==1))
+            for(k=0; k<8; k++)
+                c += neighbor_active(i,j,k);    // universe boundary condition
+            if(c==3||(c==2&&grid[i][j]==1))     // game rule
                 grid[i][j] += 2;
         }
     }

@@ -9,8 +9,16 @@
       <input id="randomButton" type="button" value="Random" onclick="random()" />
       <input id="updateButton" type="button" value="Evolve" onclick="update()" />
       <input id="evolveButton" type="button" value="Play" onclick="evolve()" />
-      <input id="resetButton" type="button" value="Reset" onclick="reset()" />
-      <input id="gosperButton" type="button" value="Gosper's Gun" onclick="reset(gosper_gun)" />
+      <label for="reset">Reset:</label>
+      <select id="reset" oninput="reset()">
+        <option value="empty" selected>Empty</option>
+        <option value="gosper">Gosper's Gun</option>
+      </select>
+      <label for="universe">Select a universe:</label>
+      <select id="universe" oninput="changeUniverse()">
+        <option value="box" selected>Box</option>
+        <option value="torus">Torus</option>
+      </select>
       <label for="resolution">Resolution (between 1 and 50):</label>
       <input id="resolution" type="range" min=1 max=50 value=25 oninput="handleChange()" />
       <label for="rows">Rows (between 3 and 1000):</label>
