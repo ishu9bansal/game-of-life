@@ -133,10 +133,12 @@ function handleChange(){
     .attr("width", resolution*cols)
     .attr("height", resolution*rows);
 
-    squares = svg.selectAll(".square").data(data);
+    squares = svg.selectAll(".square").data(data, function(d){
+        return 1000*d.x+d.y;
+    });
     enterSquare();
     squares.exit().remove();
-    squares = svg.selectAll(".square").data(data);
+    squares = svg.selectAll(".square");
     render(750);
 }
 
