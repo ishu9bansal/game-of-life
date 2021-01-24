@@ -177,15 +177,18 @@ function handleChange(){
     if(stop) evolve();
     initData();
     if(svg==null){
-        svg = d3.select("svg")
+        svg = d3.select(".main")
         .attr("width", 1)
         .attr("height", 1)
-        .attr("class", "svg-container")
         .style("background-color", "grey");
     }
     svg.transition().duration(500)
     .attr("width", resolution*cols)
     .attr("height", resolution*rows);
+
+    d3.select(".sizer_rect")
+    .attr("width", cols)
+    .attr("height", rows);
 
     squares = svg.selectAll(".square").data(data, function(d){
         return 1000*d.x+d.y;
