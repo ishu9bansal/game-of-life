@@ -93,8 +93,7 @@ function resetHandler(){
     reset_type = document.getElementById("reset").value;
     randomness = 0;
     if(reset_type=="random"){
-        // randomness = document.getElementById("randomness").value;
-        randomness = 0.2;
+        randomness = document.getElementById("randomness").value;
     }
     else if(reset_type=="full") randomness = 1;
     pattern = null;
