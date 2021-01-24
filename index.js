@@ -157,12 +157,13 @@ function handleClick(d,i){
 }
 
 function evolve(){
+    // TODO: add animation speed control
     if(stop){
         clearInterval(stop);
         stop = 0;
     }
     else    stop = setInterval(update, delay);
-    document.getElementById("play_pause").setAttribute("class", stop?"fas fa-pause":"fas fa-play");
+    document.getElementById("play_pause").setAttribute("class", stop?"fa fa-pause":"fa fa-play");
 }
 
 // function handleDelay(){
