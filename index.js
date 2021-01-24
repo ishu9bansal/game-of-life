@@ -49,7 +49,7 @@ function enterSquare(){
     .on("mouseover", handleMouseOver)
     .on("mouseout", handleMouseOut)
     .on("click", handleClick)
-    .style("stroke", "black")
+    .style("stroke", "grey")
     .style("fill","grey");
 }
 
@@ -140,14 +140,12 @@ function handleStepForward(){
 function handleMouseOver(d,i){
     d3.select(this)
     .transition().duration(250)
-    .style("stroke", "white")
     .style("opacity", 0.5);
 }
 
 function handleMouseOut(d,i){
     d3.select(this)
     .transition().duration(250)
-    .style("stroke", "black")
     .style("opacity", 1);
 }
 
@@ -181,7 +179,7 @@ function handleChange(){
         .attr("width", 1)
         .attr("height", 1)
         .attr("class", "svg-container")
-        .style("background-color", "black");
+        .style("background-color", "grey");
     }
     svg.transition().duration(500)
     .attr("width", resolution*cols)
