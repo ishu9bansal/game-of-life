@@ -77,15 +77,9 @@ function render(sec, translation = false){
 }
 
 function reset(randomness, pattern){
-    reset_type = document.getElementById("reset").value;
-    pattern = null;
-    if(reset_type=="gosper"){
-        pattern = gosper_gun;
-    }
     for(i=0; i<rows; i++)
         for(j=0; j<cols; j++)
             grid[i][j] = Math.random()<randomness?1:0;
-    if(reset_type=="random")    random();
     if(pattern && pattern["maxx"]<cols && pattern["maxy"]<rows){
         arr = pattern["arr"];
         for (var i = 0; i < arr.length; i++) {
