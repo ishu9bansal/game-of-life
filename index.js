@@ -76,14 +76,7 @@ function render(sec, translation = false){
     }
 }
 
-function random(){
-    // TODO: give functionality to select randomness
-    for(i=0; i<rows; i++)
-        for(j=0; j<cols; j++)
-            grid[i][j] = Math.floor(Math.random()*2);
-}
-
-function reset(){
+function reset(randomness, pattern){
     reset_type = document.getElementById("reset").value;
     pattern = null;
     if(reset_type=="gosper"){
@@ -91,7 +84,7 @@ function reset(){
     }
     for(i=0; i<rows; i++)
         for(j=0; j<cols; j++)
-            grid[i][j] = 0;
+            grid[i][j] = Math.random()<randomness?1:0;
     if(reset_type=="random")    random();
     if(pattern && pattern["maxx"]<cols && pattern["maxy"]<rows){
         arr = pattern["arr"];
@@ -100,6 +93,21 @@ function reset(){
         }
     }
     render(500);
+}
+
+function resetHandler(){
+    reset_type = document.getElementById("reset").value;
+    randomness = 0;
+    if(reset_type=="random"){
+        // randomness = document.getElementById("randomness").value;
+        randomness = 0.2;
+    }
+    else if(reset_type=="full") randomness = 1;
+    pattern = null;
+    if(reset_type=="gosper"){
+        pattern = gosper_gun;
+    }
+    reset(randomness, pattern);
 }
 
 function changeUniverse(){

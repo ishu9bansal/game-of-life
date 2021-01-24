@@ -10,12 +10,13 @@
       <button class="btn" data-toggle="tooltip" title="Time doesn't flow backwards here!" disabled ><i class="fa fa-step-backward"></i></button>
       <button class="btn" onclick="evolve()" ><i id="play_pause" class="fa fa-play"></i></button>
       <button class="btn" onclick="handleStepForward()" ><i id="step_forwd" class="fa fa-step-forward"></i></button>
-      <label for="reset">Reset:</label>
-      <select id="reset" oninput="reset()">
+      <select id="reset">
         <option value="empty" selected>Empty</option>
         <option value="random">Random</option>
         <option value="gosper">Gosper's Gun</option>
+        <option value="full">Full</option>
       </select>
+      <button class="btn" onclick="resetHandler()" ><i class="fa fa-reset"></i>Reset</button>
       <label for="universe">Select a universe:</label>
       <select id="universe" oninput="changeUniverse()">
         <option value="box" selected>Box</option>
