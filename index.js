@@ -140,12 +140,14 @@ function handleStepForward(){
 function handleMouseOver(d,i){
     d3.select(this)
     .transition().duration(250)
+    .style("stroke", "white")
     .style("opacity", 0.5);
 }
 
 function handleMouseOut(d,i){
     d3.select(this)
     .transition().duration(250)
+    .style("stroke", "black")
     .style("opacity", 1);
 }
 
