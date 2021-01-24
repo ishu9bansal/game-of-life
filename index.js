@@ -52,6 +52,8 @@ function enterSquare(){
 }
 
 function render(sec, translation = false){
+    // TODO: move colors to css
+    // TODO: evil if else logic
     if(translation){
         squares
         .transition().duration(sec)
@@ -134,12 +136,14 @@ function handleStepForward(){
 }
 
 function handleMouseOver(d,i){
+    // TODO: change transparency instead
     d3.select(this)
     .transition().duration(250)
     .style("fill", "grey");
 }
 
 function handleMouseOut(d,i){
+    // TODO: bring back transparency
     d3.select(this)
     .transition().duration(250)
     .style("fill", function(d) {
@@ -148,6 +152,7 @@ function handleMouseOut(d,i){
 }
 
 function handleClick(d,i){
+    // TODO: instant change of fill here
     grid[d.y][d.x] = 1-grid[d.y][d.x];
 }
 
