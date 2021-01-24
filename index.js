@@ -8,6 +8,8 @@ var squares;
 var svg = null;
 var delay = 100;
 var transition = 150;
+// TODO: pan accross torus universe
+// TODO: arrow control for rows and cols
 var universe = "box";
 
 function initData(){
