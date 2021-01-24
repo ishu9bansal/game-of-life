@@ -8,8 +8,6 @@ var squares;
 var svg = null;
 var delay = 100;
 var transition = 150;
-// TODO: pan accross torus universe
-// TODO: arrow control for rows and cols
 var universe = "box";
 
 function initData(){
@@ -63,16 +61,15 @@ function render(sec, translation = false){
         .attr("height", resolution)
         .attr("x", function(d) { return resolution*d.x; })
         .attr("y", function(d) { return resolution*d.y; })
-        .classed("live", function(d) {
-            return Boolean(grid[d.y][d.x]);
+        .style("fill", function(d) {
+            return grid[d.y][d.x] ? "white" : "black";
         });
-
     }
     else{
         squares
         .transition().duration(sec)
-        .classed("live", function(d) {
-            return Boolean(grid[d.y][d.x]);
+        .style("fill", function(d) {
+            return grid[d.y][d.x] ? "white" : "black";
         });
     }
 }
@@ -181,7 +178,8 @@ function handleChange(){
         svg = d3.select("svg")
         .attr("width", 1)
         .attr("height", 1)
-        .attr("class", "svg-container");
+        .attr("class", "svg-container")
+        .style("background-color", "black");
     }
     svg.transition().duration(500)
     .attr("width", resolution*cols)
