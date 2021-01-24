@@ -73,10 +73,10 @@ function render(sec, translation = false){
 }
 
 function random(){
+    // TODO: give functionality to select randomness
     for(i=0; i<rows; i++)
         for(j=0; j<cols; j++)
             grid[i][j] = Math.floor(Math.random()*2);
-    render(500);
 }
 
 function reset(){
@@ -88,6 +88,7 @@ function reset(){
     for(i=0; i<rows; i++)
         for(j=0; j<cols; j++)
             grid[i][j] = 0;
+    if(reset_type=="random")    random();
     if(pattern && pattern["maxx"]<cols && pattern["maxy"]<rows){
         arr = pattern["arr"];
         for (var i = 0; i < arr.length; i++) {
@@ -127,6 +128,11 @@ function update(){
     render(transition);
 }
 
+function handleStepForward(){
+    if(stop)    evolve();
+    update();
+}
+
 function handleMouseOver(d,i){
     d3.select(this)
     .transition().duration(250)
@@ -145,17 +151,13 @@ function handleClick(d,i){
     grid[d.y][d.x] = 1-grid[d.y][d.x];
 }
 
-function renderAnimateButtonText(){
-    document.getElementById("evolveButton").setAttribute("value", stop?"Pause":"Play");
-}
-
 function evolve(){
     if(stop){
         clearInterval(stop);
         stop = 0;
     }
     else    stop = setInterval(update, delay);
-    renderAnimateButtonText();
+    document.getElementById("play_pause").setAttribute("class", stop?"fas fa-pause":"fas fa-play");
 }
 
 // function handleDelay(){

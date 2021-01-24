@@ -1,17 +1,19 @@
 <html>
   <head>
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Game of Life</title>
   </head>
   <body>
     <h1>Life</h1>
     <div>
-      <input id="randomButton" type="button" value="Random" onclick="random()" />
-      <input id="updateButton" type="button" value="Evolve" onclick="update()" />
-      <input id="evolveButton" type="button" value="Play" onclick="evolve()" />
+      <button class="btn" data-toggle="tooltip" title="Time doesn't flow backwards here!" disabled ><i class="fas fa-step-backward"></i></button>
+      <button class="btn" onclick="evolve()" ><i id="play_pause" class="fas fa-play"></i></button>
+      <button class="btn" onclick="handleStepForward()" ><i id="step_forwd" class="fas fa-step-forward"></i></button>
       <label for="reset">Reset:</label>
       <select id="reset" oninput="reset()">
         <option value="empty" selected>Empty</option>
+        <option value="random">Random</option>
         <option value="gosper">Gosper's Gun</option>
       </select>
       <label for="universe">Select a universe:</label>
