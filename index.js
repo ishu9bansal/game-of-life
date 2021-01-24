@@ -49,7 +49,7 @@ function enterSquare(){
     .on("mouseover", handleMouseOver)
     .on("mouseout", handleMouseOut)
     .on("click", handleClick)
-    .style("stroke", "grey")
+    .style("stroke", "black") // behaviour: grey gives a grid style, removing this smooth objects
     .style("fill","grey");
 }
 
