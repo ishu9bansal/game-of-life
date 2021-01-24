@@ -138,24 +138,22 @@ function handleStepForward(){
 }
 
 function handleMouseOver(d,i){
-    // TODO: change transparency instead
     d3.select(this)
     .transition().duration(250)
-    .style("fill", "grey");
+    .style("opacity", 0.5);
 }
 
 function handleMouseOut(d,i){
-    // TODO: bring back transparency
     d3.select(this)
     .transition().duration(250)
-    .style("fill", function(d) {
-        return grid[d.y][d.x] ? "white" : "black";
-    });
+    .style("opacity", 1);
 }
 
 function handleClick(d,i){
-    // TODO: instant change of fill here
     grid[d.y][d.x] = 1-grid[d.y][d.x];
+    d3.select(this).style("fill", function(d) {
+        return grid[d.y][d.x] ? "white" : "black";
+    });
 }
 
 function evolve(){
