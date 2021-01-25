@@ -19,8 +19,8 @@ function initData(){
     data = [];
     newg = [];
     resolution = parseInt(document.getElementById("resolution").value);
-    cols = width/resolution;
-    rows = height/resolution;
+    cols = Math.floor(width/resolution);
+    rows = Math.floor(height/resolution);
     document.getElementById("rows").setAttribute("value",rows);
     document.getElementById("cols").setAttribute("value",cols);
 
