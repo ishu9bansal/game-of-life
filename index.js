@@ -56,24 +56,17 @@ function enterSquare(){
 
 function render(sec, translation = false){
     // TODO: move colors to css
-    // TODO: evil if else logic
-    if(translation){
-        squares
+    trans = squares
         .transition().duration(sec)
+        .style("fill", function(d) {
+            return grid[d.y][d.x] ? "white" : "black";
+        });
+    if(translation){
+        trans
         .attr("width", resolution)
         .attr("height", resolution)
         .attr("x", function(d) { return resolution*d.x; })
-        .attr("y", function(d) { return resolution*d.y; })
-        .style("fill", function(d) {
-            return grid[d.y][d.x] ? "white" : "black";
-        });
-    }
-    else{
-        squares
-        .transition().duration(sec)
-        .style("fill", function(d) {
-            return grid[d.y][d.x] ? "white" : "black";
-        });
+        .attr("y", function(d) { return resolution*d.y; });
     }
 }
 
