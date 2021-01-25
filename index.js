@@ -8,6 +8,7 @@ var squares;
 var svg = null;
 var delay = 100;
 var transition = 150;
+var factor = 1.0;
 // TODO: pan accross torus universe
 // TODO: arrow control for rows and cols
 var universe = "box";
@@ -130,7 +131,7 @@ function update(){
     for(i=0; i<rows; i++)
         for(j=0; j<cols; j++)
             grid[i][j] = Math.floor(grid[i][j]/2);
-    render(transition);
+    render(transition/factor);
 }
 
 function handleStepForward(){
@@ -158,19 +159,22 @@ function handleClick(d,i){
 }
 
 function evolve(){
-    // TODO: add animation speed control
     if(stop){
         clearInterval(stop);
         stop = 0;
     }
-    else    stop = setInterval(update, delay);
+    else    stop = setInterval(update, delay/factor);
     document.getElementById("play_pause").setAttribute("class", stop?"fa fa-pause":"fa fa-play");
 }
 
-// function handleDelay(){
-//     delay = document.getElementById("delay").value;
-//     transition = document.getElementById("transition").value;
-// }
+function handleSpeed(){
+    speed = document.getElementById("speed").value;
+    factor = Math.pow(2,speed);
+    if(stop){
+        evolve();
+        evolve();
+    }
+}
 
 function handleChange(){
     if(stop) evolve();
