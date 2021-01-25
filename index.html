@@ -25,15 +25,12 @@
         <option value="torus">Torus</option>
       </select>
       <label for="resolution">Cell Size:</label>
-      <input id="resolution" type="range" min=1 max=50 value=25 oninput="handleChange()" />
+      <input id="resolution" type="range" min=3 max=50 value=25 oninput="handleChange()" />
       <label>Universe Size:</label>
-      <svg class="sizer" style="background-color:grey" width=100 height=100>
-        <rect class="sizer_rect"></rect>
-      </svg>
       <label for="rows">Height:</label>
-      <input id="rows" type="number" min=3 max=100 value=25 oninput="handleChange()" />
+      <input id="rows" type="number" disabled />
       <label for="cols">Width:</label>
-      <input id="cols" type="number" min=3 max=100 value=50 oninput="handleChange()" />
+      <input id="cols" type="number" disabled />
       <!-- <input id="delay" type="number" step=1 value=500 oninput="handleDelay()" /> -->
       <!-- <input id="transition" type="number" step=1 value=250 oninput="handleDelay()" /> -->
     </div>

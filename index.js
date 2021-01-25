@@ -9,6 +9,8 @@ var svg = null;
 var delay = 100;
 var transition = 150;
 var factor = 1.0;
+var width = 1250;
+var height = 650;
 // TODO: pan accross torus universe
 // TODO: arrow control for rows and cols
 var universe = "box";
@@ -17,8 +19,10 @@ function initData(){
     data = [];
     newg = [];
     resolution = parseInt(document.getElementById("resolution").value);
-    rows = parseInt(document.getElementById("rows").value);
-    cols = parseInt(document.getElementById("cols").value);
+    cols = width/resolution;
+    rows = height/resolution;
+    document.getElementById("rows").setAttribute("value",rows);
+    document.getElementById("cols").setAttribute("value",cols);
 
     for(i=0; i<rows; i++){
         var temp = [];
@@ -174,17 +178,13 @@ function handleChange(){
     initData();
     if(svg==null){
         svg = d3.select(".main")
-        .attr("width", 1)
-        .attr("height", 1)
+        .attr("width", width)
+        .attr("height", height)
         .style("background-color", "grey");
     }
     svg.transition().duration(500)
     .attr("width", resolution*cols)
     .attr("height", resolution*rows);
-
-    d3.select(".sizer_rect")
-    .attr("width", cols)
-    .attr("height", rows);
 
     squares = svg.selectAll(".square").data(data, function(d){
         return 1000*d.x+d.y;
