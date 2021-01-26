@@ -10,9 +10,15 @@
         <h1>Life</h1>
       </div>
       <div>
-        <button class="btn" data-toggle="tooltip" title="Time doesn't flow backwards here!" disabled ><i class="fa fa-step-backward"></i></button>
-        <button class="btn" onclick="evolve()" ><i id="play_pause" class="fa fa-play"></i></button>
-        <button class="btn" onclick="handleStepForward()" ><i id="step_forwd" class="fa fa-step-forward"></i></button>
+        <button class="btn" data-toggle="tooltip" title="Time doesn't flow backwards here!" disabled >
+          <i class="fa fa-step-backward"></i>
+        </button>
+        <button class="btn" onclick="evolve()" >
+          <i id="play_pause" class="fa fa-play"></i>
+        </button>
+        <button class="btn" onclick="handleStepForward()" >
+          <i id="step_forwd" class="fa fa-step-forward"></i>
+        </button>
         <input id="speed" type="range" min=-3 max=3 step=1 value=0 oninput="handleSpeed()" />
       </div>
       <div>
@@ -38,9 +44,8 @@
       </div>
       <div>
         <label>Universe Size:</label>
-        <p><span>Height:</span><span id="rows"></span></p>
-        <br>
-        <p><span>Width:</span><span id="cols"></span></p>
+        <div><span>Height:</span><span id="rows"></span></div>
+        <div><span>Width:</span><span id="cols"></span></div>
       </div>
     </div>
     <br>
