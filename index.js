@@ -175,7 +175,7 @@ function handleSpeed(){
 
 function handleResetChange(){
     reset_type = document.getElementById("reset").value;
-    document.getElementById("randomness").hidden = reset_type!="random"
+    document.getElementById("randomness").style.visibility = reset_type=="random"?"visible":"hidden";
 }
 
 function handleChange(){
