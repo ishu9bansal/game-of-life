@@ -173,6 +173,11 @@ function handleSpeed(){
     }
 }
 
+function handleResetChange(){
+    reset_type = document.getElementById("reset").value;
+    document.getElementById("randomness").hidden = reset_type!="random"
+}
+
 function handleChange(){
     if(stop) evolve();
     initData();

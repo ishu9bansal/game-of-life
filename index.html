@@ -5,34 +5,42 @@
     <title>Game of Life</title>
   </head>
   <body>
-    <h1>Life</h1>
-    <div>
-      <button class="btn" data-toggle="tooltip" title="Time doesn't flow backwards here!" disabled ><i class="fa fa-step-backward"></i></button>
-      <button class="btn" onclick="evolve()" ><i id="play_pause" class="fa fa-play"></i></button>
-      <button class="btn" onclick="handleStepForward()" ><i id="step_forwd" class="fa fa-step-forward"></i></button>
-      <input id="speed" type="range" min=-3 max=3 step=1 value=0 oninput="handleSpeed()" />
-      <select id="reset">
-        <option value="empty" selected>Empty</option>
-        <option value="random">Random</option>
-        <option value="gosper">Gosper's Gun</option>
-        <option value="full">Full</option>
-      </select>
-      <input id="randomness" type="range" min=0 max=1 step=0.1 value=0.2 />
-      <button class="btn" onclick="resetHandler()" ><i class="fa fa-reset"></i>Reset</button>
-      <label for="universe">Select a universe:</label>
-      <select id="universe" oninput="changeUniverse()">
-        <option value="box" selected>Box</option>
-        <option value="torus">Torus</option>
-      </select>
-      <label for="resolution">Cell Size:</label>
-      <input id="resolution" type="range" min=3 max=50 value=25 oninput="handleChange()" />
-      <label>Universe Size:</label>
-      <label for="rows">Height:</label>
-      <input id="rows" type="number" disabled />
-      <label for="cols">Width:</label>
-      <input id="cols" type="number" disabled />
-      <!-- <input id="delay" type="number" step=1 value=500 oninput="handleDelay()" /> -->
-      <!-- <input id="transition" type="number" step=1 value=250 oninput="handleDelay()" /> -->
+    <div class="sidebar"> 
+      <h1>Life</h1>
+      <div>
+        <button class="btn" data-toggle="tooltip" title="Time doesn't flow backwards here!" disabled ><i class="fa fa-step-backward"></i></button>
+        <button class="btn" onclick="evolve()" ><i id="play_pause" class="fa fa-play"></i></button>
+        <button class="btn" onclick="handleStepForward()" ><i id="step_forwd" class="fa fa-step-forward"></i></button>
+        <input id="speed" type="range" min=-3 max=3 step=1 value=0 oninput="handleSpeed()" />
+      </div>
+      <div>
+        <select id="reset" onchange="handleResetChange()">
+          <option value="empty" selected>Empty</option>
+          <option value="random">Random</option>
+          <option value="gosper">Gosper's Gun</option>
+          <option value="full">Full</option>
+        </select>
+        <input id="randomness" type="range" min=0 max=1 step=0.1 value=0.2 />
+        <button class="btn" onclick="resetHandler()" ><i class="fa fa-reset"></i>Reset</button>
+      </div>
+      <div>
+        <label for="universe">Select a universe:</label>
+        <select id="universe" oninput="changeUniverse()">
+          <option value="box" selected>Box</option>
+          <option value="torus">Torus</option>
+        </select>
+      </div>
+      <div>
+        <label for="resolution">Cell Size:</label>
+        <input id="resolution" type="range" min=3 max=50 value=25 oninput="handleChange()" />
+      </div>
+      <div>
+        <label>Universe Size:</label>
+        <label for="rows">Height:</label>
+        <input id="rows" type="number" disabled />
+        <label for="cols">Width:</label>
+        <input id="cols" type="number" disabled />
+      </div>
     </div>
     <br>
     <div class="draw_area">
