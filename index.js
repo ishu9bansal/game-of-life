@@ -18,6 +18,9 @@ var universe = "box";
 function initData(){
     data = [];
     newg = [];
+    draw_area = document.getElementsByClassName("draw_area")[0];
+    width = draw_area.clientWidth;
+    height = draw_area.clientHeight;
     resolution = parseInt(document.getElementById("resolution").value);
     cols = Math.floor(width/resolution);
     rows = Math.floor(height/resolution);
