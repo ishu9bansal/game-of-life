@@ -21,8 +21,8 @@ function initData(){
     resolution = parseInt(document.getElementById("resolution").value);
     cols = Math.floor(width/resolution);
     rows = Math.floor(height/resolution);
-    document.getElementById("rows").setAttribute("value",rows);
-    document.getElementById("cols").setAttribute("value",cols);
+    document.getElementById("rows").innerText = rows;
+    document.getElementById("cols").innerText = cols;
 
     for(i=0; i<rows; i++){
         var temp = [];
