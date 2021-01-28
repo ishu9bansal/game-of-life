@@ -44,23 +44,6 @@ function initData(){
     grid = newg;
 }
 
-function enterSquare(){
-    squares
-    .enter().append("rect")
-    .attr("class","square")
-    .attr("x", function(d) {
-        return resolution*Math.floor(Math.random()*cols);
-    })
-    .attr("y", function(d) {
-        return resolution*Math.floor(Math.random()*rows);
-    })
-    // .on("mouseover", handleMouseOver)    // glitch artifact
-    // .on("mouseout", handleMouseOut)
-    // .on("click", handleClick)
-    .style("stroke", "black") // behaviour: grey gives a grid style, removing this smooth objects
-    .style("fill","grey");
-}
-
 function render(sec, translation = false){
     // TODO: move colors to css
     trans = squares
@@ -70,6 +53,18 @@ function render(sec, translation = false){
         });
     if(translation){
         trans
+        .each("start", function() {
+            d3.select(this)
+            .on("mouseover", null)
+            .on("mouseout", null)
+            .on("click", null);
+        })
+        .each("end", function() {
+            d3.select(this)
+            .on("mouseover", handleMouseOver)
+            .on("mouseout", handleMouseOut)
+            .on("click", handleClick);
+        })
         .attr("width", resolution)
         .attr("height", resolution)
         .attr("x", function(d) { return resolution*d.x; })
@@ -182,33 +177,51 @@ function handleResetChange(){
 }
 
 function handleChange(){
+    // pause animation if playing
     if(stop) evolve();
+
+    // refresh base data and dimensions
     initData();
+
+    // initialize main svg for the first time
     if(svg==null){
         svg = d3.select(".main")
         .attr("width", width)
         .attr("height", height)
         .style("background-color", "grey");
     }
+
+    // slowly transition the silver lining change in dimensions
     svg.transition().duration(500)
     .attr("width", resolution*cols)
     .attr("height", resolution*rows);
 
+    // bind updated data with unique key method
     squares = svg.selectAll(".square").data(data, function(d){
         return 1000*d.x+d.y;
     });
-    enterSquare();
+
+    // enter squares
+    squares
+    .enter().append("rect")
+    .attr("class","square")
+    .attr("x", function(d) {
+        return resolution*Math.floor(Math.random()*cols);
+    })
+    .attr("y", function(d) {
+        return resolution*Math.floor(Math.random()*rows);
+    })
+    .style("stroke", "black") // behaviour: grey gives a grid style, removing this smooth objects
+    .style("fill","grey");
+
+    // exit squares
     squares.exit().remove();
+
+    // change squares selection
     squares = svg.selectAll(".square");
-    squares
-    .on("mouseover", null)
-    .on("mouseout", null)
-    .on("click", null);
+
+    // transition squares to the correct positions
     render(750, true);
-    squares
-    .on("mouseover", handleMouseOver)
-    .on("mouseout", handleMouseOut)
-    .on("click", handleClick);
 }
 
 handleChange();
