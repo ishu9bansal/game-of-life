@@ -200,6 +200,10 @@ function handleChange(){
     enterSquare();
     squares.exit().remove();
     squares = svg.selectAll(".square");
+    squares
+    .on("mouseover", null)
+    .on("mouseout", null)
+    .on("click", null);
     render(750, true);
     squares
     .on("mouseover", handleMouseOver)
