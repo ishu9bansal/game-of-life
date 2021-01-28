@@ -54,9 +54,9 @@ function enterSquare(){
     .attr("y", function(d) {
         return resolution*Math.floor(Math.random()*rows);
     })
-    .on("mouseover", handleMouseOver)
-    .on("mouseout", handleMouseOut)
-    .on("click", handleClick)
+    // .on("mouseover", handleMouseOver)    // glitch artifact
+    // .on("mouseout", handleMouseOut)
+    // .on("click", handleClick)
     .style("stroke", "black") // behaviour: grey gives a grid style, removing this smooth objects
     .style("fill","grey");
 }
@@ -201,6 +201,10 @@ function handleChange(){
     squares.exit().remove();
     squares = svg.selectAll(".square");
     render(750, true);
+    squares
+    .on("mouseover", handleMouseOver)
+    .on("mouseout", handleMouseOut)
+    .on("click", handleClick);
 }
 
 handleChange();
