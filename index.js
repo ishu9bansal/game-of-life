@@ -135,6 +135,7 @@ function handleStepForward(){
 }
 
 function handleMouseOver(d,i){
+    // TODO: sprinkler glitch
     d3.select(this)
     .transition().duration(250)
     .style("opacity", 0.5);
