@@ -53,22 +53,22 @@ function render(sec, translation = false){
         });
     if(translation){
         trans
-        .each("start", function() {
+        .attr("width", resolution)
+        .attr("height", resolution)
+        .attr("x", function(d) { return resolution*d.x; })
+        .attr("y", function(d) { return resolution*d.y; })
+        .on("start", function() {
             d3.select(this)
             .on("mouseover", null)
             .on("mouseout", null)
             .on("click", null);
         })
-        .each("end", function() {
+        .on("end", function() {
             d3.select(this)
             .on("mouseover", handleMouseOver)
             .on("mouseout", handleMouseOut)
             .on("click", handleClick);
-        })
-        .attr("width", resolution)
-        .attr("height", resolution)
-        .attr("x", function(d) { return resolution*d.x; })
-        .attr("y", function(d) { return resolution*d.y; });
+        });
     }
 }
 
