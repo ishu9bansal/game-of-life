@@ -48,6 +48,7 @@ function render(sec, translation = false){
     // TODO: move colors to css
     trans = squares
         .transition().duration(sec)
+        .style("opacity", 1)    // sprinkler glitch
         .style("fill", function(d) {
             return grid[d.y][d.x] ? "white" : "black";
         });
@@ -135,7 +136,6 @@ function handleStepForward(){
 }
 
 function handleMouseOver(d,i){
-    // TODO: sprinkler glitch
     d3.select(this)
     .transition().duration(250)
     .style("opacity", 0.5);
