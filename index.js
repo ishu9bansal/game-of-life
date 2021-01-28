@@ -48,7 +48,7 @@ function render(sec, translation = false){
     // TODO: move colors to css
     trans = squares
         .transition().duration(sec)
-        .style("opacity", 1)    // sprinkler glitch
+        // .style("opacity", 1)    // sprinkler glitch
         .style("fill", function(d) {
             return grid[d.y][d.x] ? "white" : "black";
         });
