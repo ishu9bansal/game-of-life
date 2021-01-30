@@ -144,26 +144,18 @@ function moveGrid(x,y){
     }
     grid = newg;
 }
+
 // control data binders
 function changeResolution(value = null){
-    if(validate("resolution",value)){
-        document.getElementById("resolution").value = value;
-    }
-    resolution = parseInt(document.getElementById("resolution").value);
+    resolution = parseInt(validateUpdateAndGet("resolution",value));
 }
 
 function changeUniverse(key = null){
-    if(validate("universe", key)){
-        document.getElementById("universe").value = key;
-    }
-    universe = document.getElementById("universe").value;
+    universe = validateUpdateAndGet("universe",key);
 }
 
 function changeSpeed(value = null){
-    if(validate("speed",value)){
-        document.getElementById("speed").value = value;
-    }
-    speed = document.getElementById("speed").value;
+    speed = validateUpdateAndGet("speed",value);
     factor = Math.pow(2,speed);
     if(stop){
         evolve();
@@ -172,18 +164,12 @@ function changeSpeed(value = null){
 }
 
 function changeMode(key = null){
-    if(validate("reset",key)){
-        document.getElementById("reset").value = key;
-    }
-    mode = document.getElementById("reset").value;
+    mode = validateUpdateAndGet("reset",key);
     document.getElementById("scale").style.visibility = patterns[mode]["scale"]?"visible":"hidden";
 }
 
 function changeScale(value = null){
-    if(validate("scale",value)){
-        document.getElementById("scale").value = value;
-    }
-    scale = document.getElementById("scale").value;
+    scale = validateUpdateAndGet("scale",value);
 }
 
 // event listners
@@ -368,11 +354,10 @@ function validate(id, value){
 }
 
 function validateUpdateAndGet(id, value){
-    // TODO: use it
-    if(validate("universe", value)){
-        document.getElementById("universe").value = value;
+    if(validate(id, value)){
+        document.getElementById(id).value = value;
     }
-    return document.getElementById("universe").value;
+    return document.getElementById(id).value;
 }
 
 function initializeSelectOptions(selectId, optionsMap){
