@@ -212,6 +212,7 @@ function handleChange(){
     .attr("y", function(d) {
         return resolution*Math.floor(Math.random()*rows);
     })
+    // .attr("rx",5).attr("ry",5)   // rounded squares
     .style("stroke", "black") // behaviour: grey gives a grid style, removing this smooth objects
     .style("fill","grey");
 
