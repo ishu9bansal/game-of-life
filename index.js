@@ -250,6 +250,6 @@ function initializeSelectOptions(selectId, optionsMap, default_value){
 }
 
 initializeSelectOptions("universe", multiverse, universe);
-initializeSelectOptions("reset", patterns, "random");
+initializeSelectOptions("reset", patterns, "empty");
 handleChange();
 window.onkeydown = handleKeyPress;
