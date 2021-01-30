@@ -5,6 +5,8 @@ var gosper_gun = {
 	"name": "Gosper's Gun"
 };
 
+// TODO: size control through patterns
+
 var glider = {
 	"x": [2, 3, 1, 2, 3],
 	"y": [1, 2, 3, 3, 3],
