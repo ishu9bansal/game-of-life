@@ -16,16 +16,45 @@ var mode = "random";
 var scale = 0.2;
 
 // configs
-const RES_MIN = 3;
-const RES_MAX = 50;
-const RES_STEP = 1;
-const SCALE_MIN = 0;
-const SCALE_MAX = 1;
-const SCALE_STEP = 0.01;
-const SPEED_MIN = -3;
-const SPEED_MAX = 3;
-const SPEED_STEP = 1;
 const SPEED_VALUE = 0;
+const config = {
+    "resolution": {
+        min: 3,
+        max: 50,
+        step: 1,
+        type: "range",
+        binder: changeResolution,
+        var: "resolution"
+    },
+    "scale": {
+        min: 0,
+        max: 1,
+        step: 0.01,
+        type: "range",
+        binder: changeScale,
+        var: "scale"
+    },
+    "speed": {
+        min: -3,
+        max: 3,
+        step: 1,
+        type: "range",
+        binder: changeSpeed,
+        var: "SPEED_VALUE"
+    },
+    "universe": {
+        keys: multiverse,
+        type: "select",
+        binder: changeUniverse,
+        var: "universe"
+    },
+    "reset": {
+        keys: patterns,
+        type: "select",
+        binder: changeMode,
+        var: "mode"
+    }
+}
 
 function init(){
     // setup drawing dimension limits
@@ -40,9 +69,7 @@ function init(){
         .style("background-color", "grey");
 
     // set up resolution
-    document.getElementById("resolution").min = RES_MIN;
-    document.getElementById("resolution").max = RES_MAX;
-    document.getElementById("resolution").step = RES_STEP;
+    initializeRangeOptions("resolution", config["resolution"]);
     changeResolution(resolution);
 
     // setup rows and cols using res
@@ -50,15 +77,11 @@ function init(){
     cols = Math.floor(width/resolution);
 
     // setup scale
-    document.getElementById("scale").min = SCALE_MIN;
-    document.getElementById("scale").max = SCALE_MAX;
-    document.getElementById("scale").step = SCALE_STEP;
+    initializeRangeOptions("scale", config["scale"]);
     changeScale(scale);
 
     // setup speed
-    document.getElementById("speed").min = SPEED_MIN;
-    document.getElementById("speed").max = SPEED_MAX;
-    document.getElementById("speed").step = SPEED_STEP;
+    initializeRangeOptions("speed", config["speed"]);
     changeSpeed(SPEED_VALUE);
 
     // setup multiverse
@@ -339,7 +362,7 @@ function patternRes(pattern){
 }
 
 function isValidResolution(res){
-    return res && res>=RES_MIN&&res<=RES_MAX;
+    return res && res>=config["resolution"].min&&res<=config["resolution"].max;
 }
 
 function initializeSelectOptions(selectId, optionsMap){
@@ -350,6 +373,12 @@ function initializeSelectOptions(selectId, optionsMap){
         option.innerText = optionsMap[key]["name"];
         select_element.add(option);
     }
+}
+
+function initializeRangeOptions(selectId, conf){
+    document.getElementById(selectId).min = conf.min;
+    document.getElementById(selectId).max = conf.max;
+    document.getElementById(selectId).step = conf.step;
 }
 
 // initial callbacks
