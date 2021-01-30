@@ -11,7 +11,6 @@ var transition = 150;
 var factor = 1.0;
 var width = 1250;
 var height = 650;
-// TODO: pan accross torus universe
 // TODO: arrow control for rows and cols
 var universe = "box";
 
@@ -130,6 +129,25 @@ function update(){
     render(transition/factor);
 }
 
+function moveGrid(x,y){
+    newg = grid;
+    for(i=0; i<rows; i++){
+        for(j=0; j<cols; j++){
+            newg[i][j] = grid[(i+y+rows)%rows][(j+x+cols)%cols];
+        }
+    }
+    grid = newg;
+}
+
+function handleKeyPress(e){
+    k = e.which-37;
+    if(stop||k<0||k>3)  return;
+    if(universe=="box") return;
+    d = [0,-1,0,1,0];
+    moveGrid(d[k+1],d[k]);
+    render(500, true);
+}
+
 function handleStepForward(){
     if(stop)    evolve();
     update();
@@ -226,3 +244,4 @@ function handleChange(){
 }
 
 handleChange();
+window.onkeydown = handleKeyPress;
