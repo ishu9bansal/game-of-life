@@ -146,21 +146,21 @@ function moveGrid(x,y){
 }
 // control data binders
 function changeResolution(value = null){
-    if(isValidResolution(value)){
+    if(validate("resolution",value)){
         document.getElementById("resolution").value = value;
     }
     resolution = parseInt(document.getElementById("resolution").value);
 }
 
 function changeUniverse(key = null){
-    if(key && multiverse[key]){
+    if(validate("universe", key)){
         document.getElementById("universe").value = key;
     }
     universe = document.getElementById("universe").value;
 }
 
 function changeSpeed(value = null){
-    if(value!=null && value>-4 && value<4){
+    if(validate("speed",value)){
         document.getElementById("speed").value = value;
     }
     speed = document.getElementById("speed").value;
@@ -172,7 +172,7 @@ function changeSpeed(value = null){
 }
 
 function changeMode(key = null){
-    if(key!=null && patterns[key]){
+    if(validate("reset",key)){
         document.getElementById("reset").value = key;
     }
     mode = document.getElementById("reset").value;
@@ -180,8 +180,7 @@ function changeMode(key = null){
 }
 
 function changeScale(value = null){
-    // TODO: common change and validation methods
-    if(value && value>=0 && value<=1){
+    if(validate("scale",value)){
         document.getElementById("scale").value = value;
     }
     scale = document.getElementById("scale").value;
@@ -361,8 +360,19 @@ function patternRes(pattern){
     return null;
 }
 
-function isValidResolution(res){
-    return res && res>=config["resolution"].min&&res<=config["resolution"].max;
+function validate(id, value){
+    if(!config[id] || value==null) return false;
+    if(config[id].type=="range")    return value>=config[id].min && value<=config[id].max;
+    if(config[id].type=="select")   return !!config[id].keys[value];
+    return false;
+}
+
+function validateUpdateAndGet(id, value){
+    // TODO: use it
+    if(validate("universe", value)){
+        document.getElementById("universe").value = value;
+    }
+    return document.getElementById("universe").value;
 }
 
 function initializeSelectOptions(selectId, optionsMap){
