@@ -11,7 +11,7 @@ var width = 1250;
 var height = 650;
 var resolution = 25;
 var universe = "box";
-var mode = "empty";
+var mode = "random";
 var scale = 0.2;
 
 function initData(){
@@ -27,6 +27,8 @@ function initData(){
     // document.getElementById("resolution").min = res_min;
     // document.getElementById("resolution").max = res_max;
     changeResolution(resolution);
+    rows = Math.floor(height/resolution);
+    cols = Math.floor(width/resolution);
 }
 
 // data manipulator methods
@@ -241,8 +243,8 @@ function evolve(){
     document.getElementById("play_pause").setAttribute("class", stop?"fa fa-pause":"fa fa-play");
 }
 
-function reset(){
-    changeMode();
+function reset(val = null){
+    changeMode(val);
     changeScale();
     pattern = patterns[mode];
     changeUniverse(pattern.universe);
@@ -309,6 +311,5 @@ initData();
 initializeSelectOptions("universe", multiverse);
 changeUniverse(universe);
 initializeSelectOptions("reset", patterns);
-changeMode(mode);
-handleChange();
+reset(mode);
 window.onkeydown = handleKeyPress;
