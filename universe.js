@@ -13,6 +13,7 @@ function boxPan(k){
 
 var box_universe = {
 	"name": "Box",
+	"pan": boxPan,
 	"neighbor": boxNeighbor
 };
 
