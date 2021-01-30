@@ -100,10 +100,14 @@ function resetHandler(){
     if(patterns[reset_type]["scale"]){
         patterns[reset_type]["scale"](document.getElementById("scale").value);
     }
+    changeUniverse(patterns[reset_type]["universe"]);
     reset(randomness, patterns[reset_type]);
 }
 
-function changeUniverse(){
+function changeUniverse(key = null){
+    if(key && multiverse[key]){
+        document.getElementById("universe").value = key;
+    }
     universe = document.getElementById("universe").value;
 }
 
