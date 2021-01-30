@@ -14,16 +14,21 @@ var universe = "box";
 
 function initData(){
     data = [];
-    newg = [];
+    grid = [];
     draw_area = document.getElementsByClassName("draw_area")[0];
     width = draw_area.clientWidth;
     height = draw_area.clientHeight;
-    resolution = parseInt(document.getElementById("resolution").value);
-    cols = Math.floor(width/resolution);
-    rows = Math.floor(height/resolution);
-    document.getElementById("rows").innerText = rows;
-    document.getElementById("cols").innerText = cols;
+    svg = d3.select("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .style("background-color", "grey");
+}
 
+function rescaleData(r,c){
+    document.getElementById("rows").innerText = rows = r;
+    document.getElementById("cols").innerText = cols = c;
+    newg = [];
+    data = [];
     for(i=0; i<rows; i++){
         var temp = [];
         for(j=0; j<cols; j++){
@@ -39,6 +44,13 @@ function initData(){
         newg.push(temp);
     }
     grid = newg;
+}
+
+function changeResolution(value = null){
+    if(value!=null && value>=3 && value<=50){
+        document.getElementById("resolution").value = value;
+    }
+    resolution = parseInt(document.getElementById("resolution").value);
 }
 
 function render(sec, translation = false){
@@ -195,20 +207,19 @@ function handleResetChange(){
     document.getElementById("scale").style.visibility = patterns[reset_type]["scale"]?"visible":"hidden";
 }
 
-function handleChange(){
+function handleChange(res = null, r = null, c = null){
     // pause animation if playing
     if(stop) evolve();
 
-    // refresh base data and dimensions
-    initData();
+    // update or get latest resolution
+    changeResolution(res);
 
-    // initialize main svg for the first time
-    if(svg==null){
-        svg = d3.select(".main")
-        .attr("width", width)
-        .attr("height", height)
-        .style("background-color", "grey");
-    }
+    // if rows and cols are not given assume the max which can fit
+    if(r==null) r = Math.floor(height/resolution);
+    if(c==null) c = Math.floor(width/resolution);
+
+    // rescale grid and data array
+    rescaleData(r,c);
 
     // slowly transition the silver lining change in dimensions
     svg.transition().duration(500)
@@ -254,6 +265,7 @@ function initializeSelectOptions(selectId, optionsMap, default_value){
     select_element.value = default_value;
 }
 
+initData();
 initializeSelectOptions("universe", multiverse, universe);
 initializeSelectOptions("reset", patterns, "empty");
 handleChange();
