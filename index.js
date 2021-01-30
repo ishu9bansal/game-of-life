@@ -254,6 +254,7 @@ function reset(){
     c = cols;
     res = patternRes(pattern);
     if(res && res<resolution){
+        resolution = res;
         r = Math.floor(height/res);
         c = Math.floor(width/res);
     }
@@ -268,7 +269,7 @@ function reset(){
     for (var i = 0; res&&i < pattern.x.length; i++) {
         grid[pattern.y[i]][pattern.x[i]] = 1;
     }
-    handleChange(res, r, c);
+    handleChange(resolution, r, c);
 }
 
 // helper methods
@@ -283,6 +284,7 @@ function patternRes(pattern){
     ){
         res = Math.floor(Math.min(width/(Math.max(...pattern.x)+2),height/(Math.max(...pattern.y)+2)));
     }
+    // TODO: initialize binders from js
     if(res>=3&&res<=50) return res;
     return null;
 }
