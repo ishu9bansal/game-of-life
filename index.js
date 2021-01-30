@@ -294,7 +294,7 @@ function patternRes(pattern){
     return null;
 }
 
-function initializeSelectOptions(selectId, optionsMap, default_value){
+function initializeSelectOptions(selectId, optionsMap){
     select_element = document.getElementById(selectId);
     for(key in optionsMap){
         option = document.createElement("option");
@@ -302,12 +302,13 @@ function initializeSelectOptions(selectId, optionsMap, default_value){
         option.innerText = optionsMap[key]["name"];
         select_element.add(option);
     }
-    select_element.value = default_value;
 }
 
 // initial callbacks
 initData();
-initializeSelectOptions("universe", multiverse, universe);
-initializeSelectOptions("reset", patterns, mode);
+initializeSelectOptions("universe", multiverse);
+changeUniverse(universe);
+initializeSelectOptions("reset", patterns);
+changeMode(mode);
 handleChange();
 window.onkeydown = handleKeyPress;
