@@ -11,6 +11,8 @@ var factor = 1.0;
 var width = 1250;
 var height = 650;
 var universe = "box";
+var mode = "empty";
+var scale = 0.2;
 
 function initData(){
     data = [];
@@ -97,6 +99,20 @@ function changeSpeed(value = null){
         evolve();
         evolve();
     }
+}
+
+function changeMode(key = null){
+    if(key!=null && patterns[key]){
+        document.getElementById("reset").value = key;
+    }
+    mode = document.getElementById("reset").value;
+}
+
+function changeScale(value = null){
+    if(value && value>=0 && value<=1){
+        document.getElementById("scale").value = value;
+    }
+    scale = document.getElementById("scale").value;
 }
 
 // event listners
@@ -227,9 +243,9 @@ function evolve(){
 }
 
 function reset(){
-    reset_type = document.getElementById("reset").value;
-    scale = document.getElementById("scale").value;
-    pattern = patterns[reset_type];
+    changeMode();
+    changeScale();
+    pattern = patterns[mode];
     changeUniverse(pattern["universe"]);
     changeSpeed(pattern["speed"]);
     for(i=0; i<rows; i++)
@@ -270,6 +286,6 @@ function initializeSelectOptions(selectId, optionsMap, default_value){
 // initial callbacks
 initData();
 initializeSelectOptions("universe", multiverse, universe);
-initializeSelectOptions("reset", patterns, "empty");
+initializeSelectOptions("reset", patterns, mode);
 handleChange();
 window.onkeydown = handleKeyPress;
