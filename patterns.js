@@ -5,6 +5,13 @@ var gosper_gun = {
 	"name": "Gosper's Gun"
 };
 
+var glider = {
+	"x": [2, 3, 1, 2, 3],
+	"y": [1, 2, 3, 3, 3],
+	"universe": "torus",
+	"name": "Glider"
+}
+
 var empty_pattern = {
 	"name": "Empty"
 };
@@ -24,7 +31,24 @@ var patterns = {
 	"empty": empty_pattern,
 	"random": random_pattern,
 	"full": full_pattern,
+	"glider": glider,
 	"gosper": gosper_gun
 };
 
+
+function capturePattern(){
+	arr = {
+		"x": [],
+		"y": []
+	};
+	for(i=0; i<grid.length; i++){
+	    for(j=0; j<grid[i].length; j++){
+	        if(grid[i][j]){
+	            arr.x.push(j);
+	            arr.y.push(i);
+	        }
+	    }
+	}
+	return arr;
+}
 // TODO: glider array
