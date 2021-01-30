@@ -2,7 +2,6 @@ var rows = 10, cols = 10;
 var resolution = 50;
 var data = [];
 var grid = [];
-var dirs = [0,1,1,0,-1,-1,1,-1,0];
 var stop = 0;
 var squares;
 var svg = null;
@@ -11,7 +10,6 @@ var transition = 150;
 var factor = 1.0;
 var width = 1250;
 var height = 650;
-// TODO: arrow control for rows and cols
 var universe = "box";
 
 function initData(){
@@ -85,9 +83,9 @@ function reset(randomness, pattern){
 
 function patternLength(pattern){
     if(
-        pattern && 
-        pattern.x && 
-        pattern.y && 
+        pattern &&
+        pattern.x &&
+        pattern.y &&
         pattern.x.length == pattern.y.length &&
         Math.max(...pattern.x)<cols-1 &&
         Math.max(...pattern.y)<rows-1
@@ -114,22 +112,12 @@ function changeUniverse(){
     universe = document.getElementById("universe").value;
 }
 
-function neighbor_active(i,j,k){
-    var I = i+dirs[k];
-    var J = j+dirs[k+1];
-    if(universe=="torus"){
-        I = (I+rows)%rows;
-        J = (J+cols)%cols;
-    }
-    return I>=0&&I<rows&&J>=0&&J<cols ? grid[I][J]%2 : 0;
-}
-
 function update(){
     for(i=0; i<rows; i++){
         for(j=0; j<cols; j++){
             var c = 0;
             for(k=0; k<8; k++)
-                c += neighbor_active(i,j,k);    // universe boundary condition
+                c += multiverse[universe].neighbor(i,j,k);    // universe boundary condition
             if(c==3||(c==2&&grid[i][j]==1))     // game rule
                 grid[i][j] += 2;
         }
@@ -153,9 +141,9 @@ function moveGrid(x,y){
 function handleKeyPress(e){
     k = e.which-37;
     if(stop||k<0||k>3)  return;
-    if(universe=="box") return;
-    d = [0,-1,0,1,0];
-    moveGrid(d[k+1],d[k]);
+    if(!multiverse[universe].pan)   return;
+    xy = multiverse[universe].pan(k);
+    moveGrid(...xy);
     render(500, true);
 }
 
