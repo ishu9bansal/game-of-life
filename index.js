@@ -356,7 +356,7 @@ function patternRes(pattern){
     ){
         res = Math.floor(Math.min(width/(Math.max(...pattern.x)+2),height/(Math.max(...pattern.y)+2)));
     }
-    if(isValidResolution(res)) return res;
+    if(validate("resolution",res)) return res;
     return null;
 }
 
