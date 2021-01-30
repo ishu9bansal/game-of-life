@@ -76,13 +76,24 @@ function reset(randomness, pattern){
     for(i=0; i<rows; i++)
         for(j=0; j<cols; j++)
             grid[i][j] = Math.random()<randomness?1:0;
-    if(pattern && pattern["maxx"]<cols && pattern["maxy"]<rows){
-        arr = pattern["arr"];
-        for (var i = 0; i < arr.length; i++) {
-            grid[arr[i][1]][arr[i][0]] = 1;
-        }
+    l = patternLength(pattern);
+    for (var i = 0; i < l; i++) {
+        grid[pattern.y[i]][pattern.x[i]] = 1;
     }
     render(500);
+}
+
+function patternLength(pattern){
+    if(
+        pattern && 
+        pattern.x && 
+        pattern.y && 
+        pattern.x.length == pattern.y.length &&
+        Math.max(...pattern.x)<cols-1 &&
+        Math.max(...pattern.y)<rows-1
+    )
+        return pattern.x.length;
+    return 0;
 }
 
 function resetHandler(){
