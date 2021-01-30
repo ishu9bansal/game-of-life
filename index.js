@@ -24,6 +24,7 @@ function initData(){
         .style("background-color", "grey");
 }
 
+// data manipulator methods
 function rescaleData(r,c){
     document.getElementById("rows").innerText = rows = r;
     document.getElementById("cols").innerText = cols = c;
@@ -44,81 +45,6 @@ function rescaleData(r,c){
         newg.push(temp);
     }
     grid = newg;
-}
-
-function changeResolution(value = null){
-    if(value!=null && value>=3 && value<=50){
-        document.getElementById("resolution").value = value;
-    }
-    resolution = parseInt(document.getElementById("resolution").value);
-}
-
-function render(sec, translation = false){
-    // TODO: move colors to css
-    trans = squares
-        .transition().duration(sec)
-        // .style("opacity", 1)    // sprinkler glitch
-        .style("fill", function(d) {
-            return grid[d.y][d.x] ? "white" : "black";
-        });
-    if(translation){
-        trans
-        .attr("width", resolution)
-        .attr("height", resolution)
-        .attr("x", function(d) { return resolution*d.x; })
-        .attr("y", function(d) { return resolution*d.y; })
-        .on("start", function() {
-            d3.select(this)
-            .on("mouseover", null)
-            .on("mouseout", null)
-            .on("click", null);
-        })
-        .on("end", function() {
-            d3.select(this)
-            .on("mouseover", handleMouseOver)
-            .on("mouseout", handleMouseOut)
-            .on("click", handleClick);
-        });
-    }
-}
-
-function reset(scale, pattern){
-    changeUniverse(pattern["universe"]);
-    changeSpeed(pattern["speed"]);
-    for(i=0; i<rows; i++)
-        for(j=0; j<cols; j++)
-            grid[i][j] = pattern.call && pattern.call(i,j,scale) ? 1 : 0;
-    l = patternLength(pattern);
-    for (var i = 0; i < l; i++) {
-        grid[pattern.y[i]][pattern.x[i]] = 1;
-    }
-    render(500);
-}
-
-function patternLength(pattern){
-    if(
-        pattern &&
-        pattern.x &&
-        pattern.y &&
-        pattern.x.length == pattern.y.length &&
-        Math.max(...pattern.x)<cols-1 &&
-        Math.max(...pattern.y)<rows-1
-    )
-        return pattern.x.length;
-    return 0;
-}
-
-function resetHandler(){
-    reset_type = document.getElementById("reset").value;
-    scale = document.getElementById("scale").value;
-    reset(scale, patterns[reset_type]);
-}
-
-function changeUniverse(key = null){
-    if(key && multiverse[key]){
-        document.getElementById("universe").value = key;
-    }
-    universe = document.getElementById("universe").value;
 }
 
 function update(){
@@ -146,7 +72,34 @@ function moveGrid(x,y){
     }
     grid = newg;
 }
+// control data binders
+function changeResolution(value = null){
+    if(value!=null && value>=3 && value<=50){
+        document.getElementById("resolution").value = value;
+    }
+    resolution = parseInt(document.getElementById("resolution").value);
+}
 
+function changeUniverse(key = null){
+    if(key && multiverse[key]){
+        document.getElementById("universe").value = key;
+    }
+    universe = document.getElementById("universe").value;
+}
+
+function changeSpeed(value = null){
+    if(value!=null && value>-4 && value<4){
+        document.getElementById("speed").value = value;
+    }
+    speed = document.getElementById("speed").value;
+    factor = Math.pow(2,speed);
+    if(stop){
+        evolve();
+        evolve();
+    }
+}
+
+// event listners
 function handleKeyPress(e){
     k = e.which-37;
     if(stop||k<0||k>3)  return;
@@ -181,32 +134,42 @@ function handleClick(d,i){
     });
 }
 
-function evolve(){
-    if(stop){
-        clearInterval(stop);
-        stop = 0;
-    }
-    else    stop = setInterval(update, delay/factor);
-    document.getElementById("play_pause").setAttribute("class", stop?"fa fa-pause":"fa fa-play");
-}
-
-function changeSpeed(value = null){
-    if(value!=null && value>-4 && value<4){
-        document.getElementById("speed").value = value;
-    }
-    speed = document.getElementById("speed").value;
-    factor = Math.pow(2,speed);
-    if(stop){
-        evolve();
-        evolve();
-    }
-}
-
 function handleResetChange(){
     reset_type = document.getElementById("reset").value;
     document.getElementById("scale").style.visibility = patterns[reset_type]["scale"]?"visible":"hidden";
 }
 
+// animation
+function render(sec, translation = false){
+    // TODO: move colors to css
+    trans = squares
+        .transition().duration(sec)
+        // .style("opacity", 1)    // sprinkler glitch
+        .style("fill", function(d) {
+            return grid[d.y][d.x] ? "white" : "black";
+        });
+    if(translation){
+        trans
+        .attr("width", resolution)
+        .attr("height", resolution)
+        .attr("x", function(d) { return resolution*d.x; })
+        .attr("y", function(d) { return resolution*d.y; })
+        .on("start", function() {
+            d3.select(this)
+            .on("mouseover", null)
+            .on("mouseout", null)
+            .on("click", null);
+        })
+        .on("end", function() {
+            d3.select(this)
+            .on("mouseover", handleMouseOver)
+            .on("mouseout", handleMouseOut)
+            .on("click", handleClick);
+        });
+    }
+}
+
+// complex controls
 function handleChange(res = null, r = null, c = null){
     // pause animation if playing
     if(stop) evolve();
@@ -254,6 +217,45 @@ function handleChange(res = null, r = null, c = null){
     render(750, true);
 }
 
+function evolve(){
+    if(stop){
+        clearInterval(stop);
+        stop = 0;
+    }
+    else    stop = setInterval(update, delay/factor);
+    document.getElementById("play_pause").setAttribute("class", stop?"fa fa-pause":"fa fa-play");
+}
+
+function reset(){
+    reset_type = document.getElementById("reset").value;
+    scale = document.getElementById("scale").value;
+    pattern = patterns[reset_type];
+    changeUniverse(pattern["universe"]);
+    changeSpeed(pattern["speed"]);
+    for(i=0; i<rows; i++)
+        for(j=0; j<cols; j++)
+            grid[i][j] = pattern.call && pattern.call(i,j,scale) ? 1 : 0;
+    l = patternLength(pattern);
+    for (var i = 0; i < l; i++) {
+        grid[pattern.y[i]][pattern.x[i]] = 1;
+    }
+    render(500);
+}
+
+// helper methods
+function patternLength(pattern){
+    if(
+        pattern &&
+        pattern.x &&
+        pattern.y &&
+        pattern.x.length == pattern.y.length &&
+        Math.max(...pattern.x)<cols-1 &&
+        Math.max(...pattern.y)<rows-1
+    )
+        return pattern.x.length;
+    return 0;
+}
+
 function initializeSelectOptions(selectId, optionsMap, default_value){
     select_element = document.getElementById(selectId);
     for(key in optionsMap){
@@ -265,6 +267,7 @@ function initializeSelectOptions(selectId, optionsMap, default_value){
     select_element.value = default_value;
 }
 
+// initial callbacks
 initData();
 initializeSelectOptions("universe", multiverse, universe);
 initializeSelectOptions("reset", patterns, "empty");
