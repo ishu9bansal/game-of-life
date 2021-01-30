@@ -70,10 +70,11 @@ function render(sec, translation = false){
     }
 }
 
-function reset(randomness, pattern){
+function reset(scale, pattern){
+    changeUniverse(pattern["universe"]);
     for(i=0; i<rows; i++)
         for(j=0; j<cols; j++)
-            grid[i][j] = Math.random()<randomness?1:0;
+            grid[i][j] = pattern.call && pattern.call(i,j,scale) ? 1 : 0;
     l = patternLength(pattern);
     for (var i = 0; i < l; i++) {
         grid[pattern.y[i]][pattern.x[i]] = 1;
@@ -96,12 +97,8 @@ function patternLength(pattern){
 
 function resetHandler(){
     reset_type = document.getElementById("reset").value;
-    randomness = patterns[reset_type]["randomness"] || 0;
-    if(patterns[reset_type]["scale"]){
-        patterns[reset_type]["scale"](document.getElementById("scale").value);
-    }
-    changeUniverse(patterns[reset_type]["universe"]);
-    reset(randomness, patterns[reset_type]);
+    scale = document.getElementById("scale").value;
+    reset(scale, patterns[reset_type]);
 }
 
 function changeUniverse(key = null){
