@@ -12,7 +12,7 @@ var width = 1250;
 var height = 650;
 var resolution = 25;
 var universe = "box";
-var mode = "random";
+var mode = "gosper";
 var scale = 0.2;
 
 // configs
