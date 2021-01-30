@@ -13,17 +13,34 @@ var glider = {
 }
 
 var glider_army = {
-	"call": function(i,j,v){
-		if(i>=5*Math.floor(rows/5)||j>=5*Math.floor(cols/5))
-			return false;
-		return [
+	"blueprint": [
 		[0,0,0,0,0],
 		[0,0,1,0,0],
 		[0,0,0,1,0],
 		[0,1,1,1,0],
 		[0,0,0,0,0]
-		][i%5][j%5];
+	],
+	"call": function(i,j,v){
+		if(i>=5*Math.floor(rows/5)||j>=5*Math.floor(cols/5))
+			return false;
+		return this.blueprint[i%5][j%5];
 	},
+	"grid": function(res, h, w){
+		r = Math.floor(h/res);
+		c = Math.floor(w/res);
+		r = 5*Math.floor(r/5);
+		c = 5*Math.floor(c/5);
+		newg = [];
+		for(i=0; i<r; i++){
+			var temp = [];
+			for(j=0; j<c; j++){
+				temp.push(this.blueprint[i%5][j%5]);
+			}
+			newg.push(temp);
+		}
+		return newg;
+	},
+	"speed": 1,
 	"universe": "torus",
 	"name": "Glide Army"
 }
