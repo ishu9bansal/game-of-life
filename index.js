@@ -117,7 +117,7 @@ function moveGrid(x,y){
 }
 // control data binders
 function changeResolution(value = null){
-    if(value!=null && value>=3 && value<=50){
+    if(isValidResolution(value)){
         document.getElementById("resolution").value = value;
     }
     resolution = parseInt(document.getElementById("resolution").value);
@@ -151,6 +151,7 @@ function changeMode(key = null){
 }
 
 function changeScale(value = null){
+    // TODO: common change and validation methods
     if(value && value>=0 && value<=1){
         document.getElementById("scale").value = value;
     }
@@ -327,9 +328,12 @@ function patternRes(pattern){
     ){
         res = Math.floor(Math.min(width/(Math.max(...pattern.x)+2),height/(Math.max(...pattern.y)+2)));
     }
-    // TODO: initialize binders from js
-    if(res>=3&&res<=50) return res;
+    if(isValidResolution(res)) return res;
     return null;
+}
+
+function isValidResolution(res){
+    return res && res>=RES_MIN&&res<=RES_MAX;
 }
 
 function initializeSelectOptions(selectId, optionsMap){
