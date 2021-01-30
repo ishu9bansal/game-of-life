@@ -27,10 +27,7 @@ const SPEED_MAX = 3;
 const SPEED_STEP = 1;
 const SPEED_VALUE = 0;
 
-function initData(){
-    data = [];
-    grid = [];
-
+function init(){
     // setup drawing dimension limits
     draw_area = document.getElementsByClassName("draw_area")[0];
     width = draw_area.clientWidth;
@@ -64,7 +61,16 @@ function initData(){
     document.getElementById("speed").step = SPEED_STEP;
     changeSpeed(SPEED_VALUE);
 
+    // setup multiverse
+    initializeSelectOptions("universe", multiverse);
+    changeUniverse(universe);
 
+    // setup reset modes and patterns
+    initializeSelectOptions("reset", patterns);
+    reset(mode);
+
+    // setup secret functionality
+    window.onkeydown = handleKeyPress;
 }
 
 // data manipulator methods
@@ -347,9 +353,4 @@ function initializeSelectOptions(selectId, optionsMap){
 }
 
 // initial callbacks
-initData();
-initializeSelectOptions("universe", multiverse);
-changeUniverse(universe);
-initializeSelectOptions("reset", patterns);
-reset(mode);
-window.onkeydown = handleKeyPress;
+init();
