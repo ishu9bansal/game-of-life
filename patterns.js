@@ -12,6 +12,22 @@ var glider = {
 	"name": "Glider"
 }
 
+var glider_army = {
+	"call": function(i,j,v){
+		if(i>=5*Math.floor(rows/5)||j>=5*Math.floor(cols/5))
+			return false;
+		return [
+		[0,0,0,0,0],
+		[0,0,1,0,0],
+		[0,0,0,1,0],
+		[0,1,1,1,0],
+		[0,0,0,0,0]
+		][i%5][j%5];
+	},
+	"universe": "torus",
+	"name": "Glide Army"
+}
+
 var empty_pattern = {
 	"name": "Empty"
 };
@@ -32,7 +48,8 @@ var patterns = {
 	"random": random_pattern,
 	"full": full_pattern,
 	"glider": glider,
-	"gosper": gosper_gun
+	"gosper": gosper_gun,
+	"glider_army": glider_army
 };
 
 
@@ -51,4 +68,3 @@ function capturePattern(){
 	}
 	return arr;
 }
-// TODO: glider array
