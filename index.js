@@ -24,6 +24,8 @@ function initData(){
         .attr("width", width)
         .attr("height", height)
         .style("background-color", "grey");
+    // document.getElementById("resolution").min = res_min;
+    // document.getElementById("resolution").max = res_max;
     changeResolution(resolution);
 }
 
@@ -107,6 +109,7 @@ function changeMode(key = null){
         document.getElementById("reset").value = key;
     }
     mode = document.getElementById("reset").value;
+    document.getElementById("scale").style.visibility = patterns[mode]["scale"]?"visible":"hidden";
 }
 
 function changeScale(value = null){
@@ -149,11 +152,6 @@ function handleClick(d,i){
     d3.select(this).style("fill", function(d) {
         return grid[d.y][d.x] ? "white" : "black";
     });
-}
-
-function handleResetChange(){
-    reset_type = document.getElementById("reset").value;
-    document.getElementById("scale").style.visibility = patterns[reset_type]["scale"]?"visible":"hidden";
 }
 
 // animation

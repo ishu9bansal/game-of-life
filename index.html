@@ -25,7 +25,7 @@
         <input id="speed" name="speed" type="range" min=-3 max=3 step=1 value=0 oninput="changeSpeed()" />
       </div>
       <div>
-        <select id="reset" onchange="handleResetChange()">
+        <select id="reset" onchange="changeMode()">
         </select>
         <input id="scale" style="visibility: hidden;" type="range" min=0 max=1 step=0.01 value=0.2 />
         <button class="btn" onclick="reset()" ><i class="fa fa-reset"></i>Reset</button>
