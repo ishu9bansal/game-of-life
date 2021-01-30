@@ -143,7 +143,7 @@ function handleKeyPress(e){
     if(stop||k<0||k>3)  return;
     if(!multiverse[universe].pan)   return;
     xy = multiverse[universe].pan(k);
-    if(!xy) reutrn;
+    if(!xy) return;
     moveGrid(...xy);
     render(500, true);
 }
