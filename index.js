@@ -1,3 +1,4 @@
+// globals
 var rows = 10, cols = 10;
 var data = [];
 var grid = [];
@@ -11,20 +12,88 @@ var width = 1250;
 var height = 650;
 var resolution = 25;
 var universe = "box";
-var mode = "empty";
+var mode = "gosper";
 var scale = 0.2;
 
-function initData(){
-    data = [];
-    grid = [];
+// configs
+const SPEED_VALUE = 0;
+const config = {
+    "resolution": {
+        min: 3,
+        max: 50,
+        step: 1,
+        type: "range",
+        binder: changeResolution,
+        var: "resolution"
+    },
+    "scale": {
+        min: 0,
+        max: 1,
+        step: 0.01,
+        type: "range",
+        binder: changeScale,
+        var: "scale"
+    },
+    "speed": {
+        min: -3,
+        max: 3,
+        step: 1,
+        type: "range",
+        binder: changeSpeed,
+        var: "SPEED_VALUE"
+    },
+    "universe": {
+        keys: multiverse,
+        type: "select",
+        binder: changeUniverse,
+        var: "universe"
+    },
+    "reset": {
+        keys: patterns,
+        type: "select",
+        binder: changeMode,
+        var: "mode"
+    }
+}
+
+function init(){
+    // setup drawing dimension limits
     draw_area = document.getElementsByClassName("draw_area")[0];
     width = draw_area.clientWidth;
     height = draw_area.clientHeight;
+
+    // setup svg
     svg = d3.select("svg")
         .attr("width", width)
         .attr("height", height)
         .style("background-color", "grey");
+
+    // set up resolution
+    initializeRangeOptions("resolution", config["resolution"]);
     changeResolution(resolution);
+
+    // setup rows and cols using res
+    rows = Math.floor(height/resolution);
+    cols = Math.floor(width/resolution);
+
+    // setup scale
+    initializeRangeOptions("scale", config["scale"]);
+    changeScale(scale);
+
+    // setup speed
+    initializeRangeOptions("speed", config["speed"]);
+    changeSpeed(SPEED_VALUE);
+
+    // setup multiverse
+    initializeSelectOptions("universe", multiverse);
+    changeUniverse(universe);
+
+    // setup reset modes and patterns
+    initializeSelectOptions("reset", patterns);
+    reset(mode);
+
+    // setup secret functionality
+    window.onkeydown = handleKeyPress;
 }
 
 // data manipulator methods
@@ -75,26 +144,18 @@ function moveGrid(x,y){
     }
     grid = newg;
 }
+
 // control data binders
 function changeResolution(value = null){
-    if(value!=null && value>=3 && value<=50){
-        document.getElementById("resolution").value = value;
-    }
-    resolution = parseInt(document.getElementById("resolution").value);
+    resolution = parseInt(validateUpdateAndGet("resolution",value));
 }
 
 function changeUniverse(key = null){
-    if(key && multiverse[key]){
-        document.getElementById("universe").value = key;
-    }
-    universe = document.getElementById("universe").value;
+    universe = validateUpdateAndGet("universe",key);
 }
 
 function changeSpeed(value = null){
-    if(value!=null && value>-4 && value<4){
-        document.getElementById("speed").value = value;
-    }
-    speed = document.getElementById("speed").value;
+    speed = validateUpdateAndGet("speed",value);
     factor = Math.pow(2,speed);
     if(stop){
         evolve();
@@ -103,17 +164,12 @@ function changeSpeed(value = null){
 }
 
 function changeMode(key = null){
-    if(key!=null && patterns[key]){
-        document.getElementById("reset").value = key;
-    }
-    mode = document.getElementById("reset").value;
+    mode = validateUpdateAndGet("reset",key);
+    document.getElementById("scale").style.visibility = patterns[mode]["scale"]?"visible":"hidden";
 }
 
 function changeScale(value = null){
-    if(value && value>=0 && value<=1){
-        document.getElementById("scale").value = value;
-    }
-    scale = document.getElementById("scale").value;
+    scale = validateUpdateAndGet("scale",value);
 }
 
 // event listners
@@ -149,11 +205,6 @@ function handleClick(d,i){
     d3.select(this).style("fill", function(d) {
         return grid[d.y][d.x] ? "white" : "black";
     });
-}
-
-function handleResetChange(){
-    reset_type = document.getElementById("reset").value;
-    document.getElementById("scale").style.visibility = patterns[reset_type]["scale"]?"visible":"hidden";
 }
 
 // animation
@@ -243,8 +294,8 @@ function evolve(){
     document.getElementById("play_pause").setAttribute("class", stop?"fa fa-pause":"fa fa-play");
 }
 
-function reset(){
-    changeMode();
+function reset(val = null){
+    changeMode(val);
     changeScale();
     pattern = patterns[mode];
     changeUniverse(pattern.universe);
@@ -291,12 +342,25 @@ function patternRes(pattern){
     ){
         res = Math.floor(Math.min(width/(Math.max(...pattern.x)+2),height/(Math.max(...pattern.y)+2)));
     }
-    // TODO: initialize binders from js
-    if(res>=3&&res<=50) return res;
+    if(validate("resolution",res)) return res;
     return null;
 }
 
-function initializeSelectOptions(selectId, optionsMap, default_value){
+function validate(id, value){
+    if(!config[id] || value==null) return false;
+    if(config[id].type=="range")    return value>=config[id].min && value<=config[id].max;
+    if(config[id].type=="select")   return !!config[id].keys[value];
+    return false;
+}
+
+function validateUpdateAndGet(id, value){
+    if(validate(id, value)){
+        document.getElementById(id).value = value;
+    }
+    return document.getElementById(id).value;
+}
+
+function initializeSelectOptions(selectId, optionsMap){
     select_element = document.getElementById(selectId);
     for(key in optionsMap){
         option = document.createElement("option");
@@ -304,12 +368,13 @@ function initializeSelectOptions(selectId, optionsMap, default_value){
         option.innerText = optionsMap[key]["name"];
         select_element.add(option);
     }
-    select_element.value = default_value;
+}
+
+function initializeRangeOptions(selectId, conf){
+    document.getElementById(selectId).min = conf.min;
+    document.getElementById(selectId).max = conf.max;
+    document.getElementById(selectId).step = conf.step;
 }
 
 // initial callbacks
-initData();
-initializeSelectOptions("universe", multiverse, universe);
-initializeSelectOptions("reset", patterns, mode);
-handleChange();
-window.onkeydown = handleKeyPress;
+init();

@@ -69,6 +69,7 @@ var patterns = {
 	"glider_army": glider_army
 };
 
+// TODO: add tutorial
 
 function capturePattern(){
 	arr = {

@@ -22,12 +22,12 @@
         <button class="btn" onclick="handleStepForward()" >
           <i id="step_forwd" class="fa fa-step-forward"></i>
         </button>
-        <input id="speed" name="speed" type="range" min=-3 max=3 step=1 value=0 oninput="changeSpeed()" />
+        <input id="speed" name="speed" type="range" oninput="changeSpeed()" />
       </div>
       <div>
-        <select id="reset" onchange="handleResetChange()">
+        <select id="reset" onchange="changeMode()">
         </select>
-        <input id="scale" style="visibility: hidden;" type="range" min=0 max=1 step=0.01 value=0.2 />
+        <input id="scale" style="visibility: hidden;" type="range" onchange="reset()" />
         <button class="btn" onclick="reset()" ><i class="fa fa-reset"></i>Reset</button>
       </div>
       <div>
@@ -37,7 +37,7 @@
       </div>
       <div>
         <label for="resolution">Cell Size:</label>
-        <input id="resolution" type="range" min=3 max=50 value=25 oninput="handleChange()" />
+        <input id="resolution" type="range" oninput="handleChange()" />
       </div>
       <div>
         <label>Universe Size:</label>
