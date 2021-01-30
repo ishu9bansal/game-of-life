@@ -27,7 +27,7 @@
       <div>
         <select id="reset" onchange="changeMode()">
         </select>
-        <input id="scale" style="visibility: hidden;" type="range" min=0 max=1 step=0.01 value=0.2 />
+        <input id="scale" style="visibility: hidden;" type="range" min=0 max=1 step=0.01 value=0.2 onchange="reset()" />
         <button class="btn" onclick="reset()" ><i class="fa fa-reset"></i>Reset</button>
       </div>
       <div>
