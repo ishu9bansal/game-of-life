@@ -26,6 +26,7 @@ var glider_army = {
 		[0,0,0,0,0]
 		][i%5][j%5];
 	},
+	"speed": 2,
 	"universe": "torus",
 	"name": "Glide Army"
 }

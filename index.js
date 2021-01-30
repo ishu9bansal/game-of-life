@@ -72,6 +72,7 @@ function render(sec, translation = false){
 
 function reset(scale, pattern){
     changeUniverse(pattern["universe"]);
+    changeSpeed(pattern["speed"]);
     for(i=0; i<rows; i++)
         for(j=0; j<cols; j++)
             grid[i][j] = pattern.call && pattern.call(i,j,scale) ? 1 : 0;
@@ -177,7 +178,10 @@ function evolve(){
     document.getElementById("play_pause").setAttribute("class", stop?"fa fa-pause":"fa fa-play");
 }
 
-function handleSpeed(){
+function changeSpeed(value = null){
+    if(value!=null && value>-4 && value<4){
+        document.getElementById("speed").value = value;
+    }
     speed = document.getElementById("speed").value;
     factor = Math.pow(2,speed);
     if(stop){

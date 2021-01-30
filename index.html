@@ -22,8 +22,7 @@
         <button class="btn" onclick="handleStepForward()" >
           <i id="step_forwd" class="fa fa-step-forward"></i>
         </button>
-        <input id="speed" name="speed" type="range" min=-3 max=3 step=1 value=0 oninput="handleSpeed()" />
-        <output for="speed" onforminput="value = speed.valueAsNumber;"></output>
+        <input id="speed" name="speed" type="range" min=-3 max=3 step=1 value=0 oninput="changeSpeed()" />
       </div>
       <div>
         <select id="reset" onchange="handleResetChange()">
