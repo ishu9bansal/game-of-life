@@ -43,3 +43,6 @@ var arr = [
 	[36,4]
 ];
 gosper_gun["arr"] = arr;
+
+// TODO: glider array
+// TODO: resize resolution based on max size
