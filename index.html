@@ -2,6 +2,9 @@
   <head>
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="patterns.js"></script>
+    <script src="universe.js"></script>
     <title>Game of Life</title>
   </head>
   <body>
@@ -24,19 +27,13 @@
       </div>
       <div>
         <select id="reset" onchange="handleResetChange()">
-          <option value="empty" selected>Empty</option>
-          <option value="random">Random</option>
-          <option value="gosper">Gosper's Gun</option>
-          <option value="full">Full</option>
         </select>
-        <input id="randomness" style="visibility: hidden;" type="range" min=0 max=1 step=0.1 value=0.2 />
+        <input id="scale" style="visibility: hidden;" type="range" min=0 max=1 step=0.01 value=0.2 />
         <button class="btn" onclick="resetHandler()" ><i class="fa fa-reset"></i>Reset</button>
       </div>
       <div>
         <label for="universe">Select a universe:</label>
         <select id="universe" oninput="changeUniverse()">
-          <option value="box" selected>Box</option>
-          <option value="torus">Torus</option>
         </select>
       </div>
       <div>
@@ -52,8 +49,6 @@
     <div class="draw_area">
       <svg class="main"></svg>
     </div>
-    <script src="https://d3js.org/d3.v4.min.js"></script>
-    <script src="patterns.js"></script>
     <script src="index.js"></script>
   </body>
 </html>

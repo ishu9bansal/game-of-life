@@ -2,7 +2,6 @@ var rows = 10, cols = 10;
 var resolution = 50;
 var data = [];
 var grid = [];
-var dirs = [0,1,1,0,-1,-1,1,-1,0];
 var stop = 0;
 var squares;
 var svg = null;
@@ -11,8 +10,6 @@ var transition = 150;
 var factor = 1.0;
 var width = 1250;
 var height = 650;
-// TODO: pan accross torus universe
-// TODO: arrow control for rows and cols
 var universe = "box";
 
 function initData(){
@@ -73,45 +70,42 @@ function render(sec, translation = false){
     }
 }
 
-function reset(randomness, pattern){
+function reset(scale, pattern){
+    changeUniverse(pattern["universe"]);
     for(i=0; i<rows; i++)
         for(j=0; j<cols; j++)
-            grid[i][j] = Math.random()<randomness?1:0;
-    if(pattern && pattern["maxx"]<cols && pattern["maxy"]<rows){
-        arr = pattern["arr"];
-        for (var i = 0; i < arr.length; i++) {
-            grid[arr[i][1]][arr[i][0]] = 1;
-        }
+            grid[i][j] = pattern.call && pattern.call(i,j,scale) ? 1 : 0;
+    l = patternLength(pattern);
+    for (var i = 0; i < l; i++) {
+        grid[pattern.y[i]][pattern.x[i]] = 1;
     }
     render(500);
 }
 
+function patternLength(pattern){
+    if(
+        pattern &&
+        pattern.x &&
+        pattern.y &&
+        pattern.x.length == pattern.y.length &&
+        Math.max(...pattern.x)<cols-1 &&
+        Math.max(...pattern.y)<rows-1
+    )
+        return pattern.x.length;
+    return 0;
+}
+
 function resetHandler(){
     reset_type = document.getElementById("reset").value;
-    randomness = 0;
-    if(reset_type=="random"){
-        randomness = document.getElementById("randomness").value;
-    }
-    else if(reset_type=="full") randomness = 1;
-    pattern = null;
-    if(reset_type=="gosper"){
-        pattern = gosper_gun;
-    }
-    reset(randomness, pattern);
+    scale = document.getElementById("scale").value;
+    reset(scale, patterns[reset_type]);
 }
 
-function changeUniverse(){
+function changeUniverse(key = null){
+    if(key && multiverse[key]){
+        document.getElementById("universe").value = key;
+    }
     universe = document.getElementById("universe").value;
-}
-
-function neighbor_active(i,j,k){
-    var I = i+dirs[k];
-    var J = j+dirs[k+1];
-    if(universe=="torus"){
-        I = (I+rows)%rows;
-        J = (J+cols)%cols;
-    }
-    return I>=0&&I<rows&&J>=0&&J<cols ? grid[I][J]%2 : 0;
 }
 
 function update(){
@@ -119,7 +113,7 @@ function update(){
         for(j=0; j<cols; j++){
             var c = 0;
             for(k=0; k<8; k++)
-                c += neighbor_active(i,j,k);    // universe boundary condition
+                c += multiverse[universe].neighbor(i,j,k);    // universe boundary condition
             if(c==3||(c==2&&grid[i][j]==1))     // game rule
                 grid[i][j] += 2;
         }
@@ -128,6 +122,26 @@ function update(){
         for(j=0; j<cols; j++)
             grid[i][j] = Math.floor(grid[i][j]/2);
     render(transition/factor);
+}
+
+function moveGrid(x,y){
+    newg = grid;
+    for(i=0; i<rows; i++){
+        for(j=0; j<cols; j++){
+            newg[i][j] = grid[(i+y+rows)%rows][(j+x+cols)%cols];
+        }
+    }
+    grid = newg;
+}
+
+function handleKeyPress(e){
+    k = e.which-37;
+    if(stop||k<0||k>3)  return;
+    if(!multiverse[universe].pan)   return;
+    xy = multiverse[universe].pan(k);
+    if(!xy) return;
+    moveGrid(...xy);
+    render(500, true);
 }
 
 function handleStepForward(){
@@ -174,7 +188,7 @@ function handleSpeed(){
 
 function handleResetChange(){
     reset_type = document.getElementById("reset").value;
-    document.getElementById("randomness").style.visibility = reset_type=="random"?"visible":"hidden";
+    document.getElementById("scale").style.visibility = patterns[reset_type]["scale"]?"visible":"hidden";
 }
 
 function handleChange(){
@@ -225,4 +239,18 @@ function handleChange(){
     render(750, true);
 }
 
+function initializeSelectOptions(selectId, optionsMap, default_value){
+    select_element = document.getElementById(selectId);
+    for(key in optionsMap){
+        option = document.createElement("option");
+        option.value = key;
+        option.innerText = optionsMap[key]["name"];
+        select_element.add(option);
+    }
+    select_element.value = default_value;
+}
+
+initializeSelectOptions("universe", multiverse, universe);
+initializeSelectOptions("reset", patterns, "empty");
 handleChange();
+window.onkeydown = handleKeyPress;
