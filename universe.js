@@ -28,6 +28,7 @@ function torusPan(k){
 
 var torus_universe = {
 	"name": "Torus",
+	"pan": torusPan,
 	"neighbor": torusNeighbor
 };
 
