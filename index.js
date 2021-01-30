@@ -243,5 +243,17 @@ function handleChange(){
     render(750, true);
 }
 
+function initializeMutliverse(){
+    universe_select = document.getElementById("universe");
+    for(uni in multiverse){
+        option = document.createElement("option");
+        option.value = uni;
+        option.innerText = multiverse[uni]["name"];
+        universe_select.add(option);
+    }
+    universe_select.value = universe;
+}
+
+initializeMutliverse();
 handleChange();
 window.onkeydown = handleKeyPress;
