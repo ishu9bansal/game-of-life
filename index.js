@@ -1,5 +1,4 @@
 var rows = 10, cols = 10;
-var resolution = 50;
 var data = [];
 var grid = [];
 var stop = 0;
@@ -10,6 +9,7 @@ var transition = 150;
 var factor = 1.0;
 var width = 1250;
 var height = 650;
+var resolution = 25;
 var universe = "box";
 var mode = "empty";
 var scale = 0.2;
@@ -24,6 +24,7 @@ function initData(){
         .attr("width", width)
         .attr("height", height)
         .style("background-color", "grey");
+    changeResolution(resolution);
 }
 
 // data manipulator methods
