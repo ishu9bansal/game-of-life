@@ -247,16 +247,22 @@ function reset(){
     changeMode();
     changeScale();
     pattern = patterns[mode];
-    changeUniverse(pattern["universe"]);
-    changeSpeed(pattern["speed"]);
-    for(i=0; i<rows; i++)
-        for(j=0; j<cols; j++)
-            grid[i][j] = pattern.call && pattern.call(i,j,scale) ? 1 : 0;
+    changeUniverse(pattern.universe);
+    changeSpeed(pattern.speed);
+    newg = [];
+    for(i=0; i<rows; i++){
+        var temp = [];
+        for(j=0; j<cols; j++){
+            temp.push(pattern.call && pattern.call(i,j,scale) ? 1 : 0);
+        }
+        newg.push(temp);
+    }
+    grid = newg;
     l = patternLength(pattern);
     for (var i = 0; i < l; i++) {
         grid[pattern.y[i]][pattern.x[i]] = 1;
     }
-    render(500);
+    handleChange(resolution, rows, cols);
 }
 
 // helper methods
