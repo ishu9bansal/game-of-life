@@ -269,6 +269,13 @@ function reset(){
     for (var i = 0; res&&i < pattern.x.length; i++) {
         grid[pattern.y[i]][pattern.x[i]] = 1;
     }
+    newg = null;
+    if(pattern.grid)    newg = pattern.grid(resolution,height,width);
+    if(newg && newg.length>=3 && newg[0].length>=3){
+        grid = newg;
+        r = grid.length;
+        c = grid[0].length;
+    }
     handleChange(resolution, r, c);
 }
 
