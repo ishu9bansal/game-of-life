@@ -250,33 +250,41 @@ function reset(){
     changeUniverse(pattern.universe);
     changeSpeed(pattern.speed);
     newg = [];
-    for(i=0; i<rows; i++){
+    r = rows;
+    c = cols;
+    res = patternRes(pattern);
+    if(res && res<resolution){
+        r = Math.floor(height/res);
+        c = Math.floor(width/res);
+    }
+    for(i=0; i<r; i++){
         var temp = [];
-        for(j=0; j<cols; j++){
+        for(j=0; j<c; j++){
             temp.push(pattern.call && pattern.call(i,j,scale) ? 1 : 0);
         }
         newg.push(temp);
     }
     grid = newg;
-    l = patternLength(pattern);
-    for (var i = 0; i < l; i++) {
+    for (var i = 0; res&&i < pattern.x.length; i++) {
         grid[pattern.y[i]][pattern.x[i]] = 1;
     }
-    handleChange(resolution, rows, cols);
+    handleChange(res, r, c);
 }
 
 // helper methods
-function patternLength(pattern){
+function patternRes(pattern){
+    res = 0;
     if(
         pattern &&
         pattern.x &&
         pattern.y &&
         pattern.x.length == pattern.y.length &&
-        Math.max(...pattern.x)<cols-1 &&
-        Math.max(...pattern.y)<rows-1
-    )
-        return pattern.x.length;
-    return 0;
+        pattern.x.length
+    ){
+        res = Math.floor(Math.min(width/(Math.max(...pattern.x)+2),height/(Math.max(...pattern.y)+2)));
+    }
+    if(res>=3&&res<=50) return res;
+    return null;
 }
 
 function initializeSelectOptions(selectId, optionsMap, default_value){
