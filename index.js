@@ -238,17 +238,18 @@ function handleChange(){
     render(750, true);
 }
 
-function initializeMutliverse(){
-    universe_select = document.getElementById("universe");
-    for(uni in multiverse){
+function initializeSelectOptions(selectId, optionsMap, default_value){
+    select_element = document.getElementById(selectId);
+    for(key in optionsMap){
         option = document.createElement("option");
-        option.value = uni;
-        option.innerText = multiverse[uni]["name"];
-        universe_select.add(option);
+        option.value = key;
+        option.innerText = optionsMap[key]["name"];
+        select_element.add(option);
     }
-    universe_select.value = universe;
+    select_element.value = default_value;
 }
 
-initializeMutliverse();
+initializeSelectOptions("universe", multiverse, universe);
+initializeSelectOptions("reset", patterns, "random");
 handleChange();
 window.onkeydown = handleKeyPress;
