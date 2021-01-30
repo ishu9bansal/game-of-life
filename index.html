@@ -18,14 +18,14 @@
       <div>
         <h1>Life</h1>
       </div>
-      <div>
-        <button class="btn" data-toggle="tooltip" title="Time doesn't flow backwards here!" disabled >
+      <div class="btn-group">
+        <button class="btn btn-secondary" data-toggle="tooltip" title="Time doesn't flow backwards here!" disabled >
           <i class="fa fa-step-backward"></i>
         </button>
-        <button class="btn" onclick="evolve()" >
+        <button class="btn btn-primary" onclick="evolve()" >
           <i id="play_pause" class="fa fa-play"></i>
         </button>
-        <button class="btn" onclick="handleStepForward()" >
+        <button class="btn btn-primary" onclick="handleStepForward()" >
           <i id="step_forwd" class="fa fa-step-forward"></i>
         </button>
         <input id="speed" name="speed" type="range" min=-3 max=3 step=1 value=0 oninput="handleSpeed()" />
