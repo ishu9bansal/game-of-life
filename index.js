@@ -1,3 +1,4 @@
+// globals
 var rows = 10, cols = 10;
 var data = [];
 var grid = [];
@@ -14,21 +15,56 @@ var universe = "box";
 var mode = "random";
 var scale = 0.2;
 
+// configs
+const RES_MIN = 3;
+const RES_MAX = 50;
+const RES_STEP = 1;
+const SCALE_MIN = 0;
+const SCALE_MAX = 1;
+const SCALE_STEP = 0.01;
+const SPEED_MIN = -3;
+const SPEED_MAX = 3;
+const SPEED_STEP = 1;
+const SPEED_VALUE = 0;
+
 function initData(){
     data = [];
     grid = [];
+
+    // setup drawing dimension limits
     draw_area = document.getElementsByClassName("draw_area")[0];
     width = draw_area.clientWidth;
     height = draw_area.clientHeight;
+
+    // setup svg
     svg = d3.select("svg")
         .attr("width", width)
         .attr("height", height)
         .style("background-color", "grey");
-    // document.getElementById("resolution").min = res_min;
-    // document.getElementById("resolution").max = res_max;
+
+    // set up resolution
+    document.getElementById("resolution").min = RES_MIN;
+    document.getElementById("resolution").max = RES_MAX;
+    document.getElementById("resolution").step = RES_STEP;
     changeResolution(resolution);
+
+    // setup rows and cols using res
     rows = Math.floor(height/resolution);
     cols = Math.floor(width/resolution);
+
+    // setup scale
+    document.getElementById("scale").min = SCALE_MIN;
+    document.getElementById("scale").max = SCALE_MAX;
+    document.getElementById("scale").step = SCALE_STEP;
+    changeScale(scale);
+
+    // setup speed
+    document.getElementById("speed").min = SPEED_MIN;
+    document.getElementById("speed").max = SPEED_MAX;
+    document.getElementById("speed").step = SPEED_STEP;
+    changeSpeed(SPEED_VALUE);
+
+
 }
 
 // data manipulator methods
