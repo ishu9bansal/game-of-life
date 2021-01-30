@@ -96,16 +96,11 @@ function patternLength(pattern){
 
 function resetHandler(){
     reset_type = document.getElementById("reset").value;
-    randomness = 0;
-    if(reset_type=="random"){
-        randomness = document.getElementById("randomness").value;
+    randomness = patterns[reset_type]["randomness"] || 0;
+    if(patterns[reset_type]["scale"]){
+        patterns[reset_type]["scale"](document.getElementById("scale").value);
     }
-    else if(reset_type=="full") randomness = 1;
-    pattern = null;
-    if(reset_type=="gosper"){
-        pattern = gosper_gun;
-    }
-    reset(randomness, pattern);
+    reset(randomness, patterns[reset_type]);
 }
 
 function changeUniverse(){
@@ -192,7 +187,7 @@ function handleSpeed(){
 
 function handleResetChange(){
     reset_type = document.getElementById("reset").value;
-    document.getElementById("randomness").style.visibility = reset_type=="random"?"visible":"hidden";
+    document.getElementById("scale").style.visibility = patterns[reset_type]["scale"]?"visible":"hidden";
 }
 
 function handleChange(){
