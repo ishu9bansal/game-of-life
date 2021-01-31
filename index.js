@@ -135,17 +135,6 @@ function update(){
     render(transition/factor);
 }
 
-function moveGrid(x,y){
-    newg = [];
-    for(i=0; i<rows; i++){
-        var temp = [];
-        for(j=0; j<cols; j++){
-            temp.push(grid[(i+y+rows)%rows][(j+x+cols)%cols]);
-        }
-        newg.push(temp);
-    }
-    grid = newg;
-}
 
 // control data binders
 function changeResolution(value = null){
@@ -179,10 +168,10 @@ function handleKeyPress(e){
     k = e.which-37;
     if(stop||k<0||k>3)  return;
     if(!multiverse[universe].pan)   return;
-    xy = multiverse[universe].pan(k);
-    if(!xy) return;
-    moveGrid(...xy);
-    render(500, true);
+    newg = multiverse[universe].pan(k, grid);
+    if(!newg || newg.length!=grid.length || !newg.length || newg[0].length!=grid[0].length) return;
+    grid = newg;
+    render(500);
 }
 
 function handleStepForward(){

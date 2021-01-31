@@ -7,13 +7,9 @@ function boxNeighbor(i,j,k){
     return I>=0&&I<rows&&J>=0&&J<cols ? grid[I][J]%2 : 0;
 }
 
-function boxPan(k){
-	return null;
-}
-
 var box_universe = {
 	"name": "Box",
-	"pan": boxPan,
+	"pan": null,
 	"neighbor": boxNeighbor
 };
 
@@ -23,8 +19,20 @@ function torusNeighbor(i,j,k){
     return grid[I][J]%2;
 }
 
-function torusPan(k){
-	return [dir4[k+1],dir4[k]];
+function torusPan(k, grid){
+	x = dir4[k+1];
+	y = dir4[k];
+	newg = [];
+	r = grid.length;
+	for(i=0; i<r; i++){
+		var temp = [];
+		c = grid[i].length;
+		for(j=0; j<c; j++){
+			temp.push(grid[(i+y+r)%r][(j+x+c)%c]);
+		}
+		newg.push(temp);
+	}
+	return newg;
 }
 
 var torus_universe = {
@@ -33,7 +41,7 @@ var torus_universe = {
 	"neighbor": torusNeighbor
 };
 
-function cylinderPan(k){
+function cylinderPan(k, grid){
 	return k%2?torusPan(k):boxPan(k);
 }
 
@@ -49,7 +57,7 @@ var cylinder_universe = {
 	"neighbor": cylinderNeighbor
 }
 
-function mobiusPan(k){
+function mobiusPan(k,grid){
 	return null;
 }
 
@@ -66,7 +74,7 @@ var mobius_universe = {
 	"neighbor": mobiusNeighbor
 }
 
-function weirdPan(k){
+function weirdPan(k,grid){
 	return null;
 }
 
@@ -82,7 +90,7 @@ var weird_universe = {
 	"neighbor": weirdNeighbor
 }
 
-function kleinPan(k){
+function kleinPan(k,grid){
 	return null;
 }
 
