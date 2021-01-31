@@ -136,11 +136,13 @@ function update(){
 }
 
 function moveGrid(x,y){
-    newg = grid;
+    newg = [];
     for(i=0; i<rows; i++){
+        var temp = [];
         for(j=0; j<cols; j++){
-            newg[i][j] = grid[(i+y+rows)%rows][(j+x+cols)%cols];
+            temp.push(grid[(i+y+rows)%rows][(j+x+cols)%cols]);
         }
+        newg.push(temp);
     }
     grid = newg;
 }
