@@ -83,6 +83,6 @@ var multiverse = {
 	"torus": torus_universe,
 	"cylinder": cylinder_universe,
 	"mobius": mobius_universe,
-	"weird": weird_universe,	// fucks up corners
+	// "weird": weird_universe,	// fucks up corners
 	"klein": klein_universe
 };
