@@ -33,7 +33,24 @@ var torus_universe = {
 	"neighbor": torusNeighbor
 };
 
+function cylinderPan(k){
+	return k%2?torusPan(k):boxPan(k);
+}
+
+function cylinderNeighbor(i,j,k){
+	var I = (i+dirs[k]+rows)%rows;
+	var J = j+dirs[k+1];
+	return I>=0&&I<rows&&J>=0&&J<cols ? grid[I][J]%2 : 0;
+}
+
+var cylinder_universe = {
+	"name": "Cylinder",
+	"pan": cylinderPan,
+	"neighbor": cylinderNeighbor
+}
+
 var multiverse = {
 	"box": box_universe,
-	"torus": torus_universe
+	"torus": torus_universe,
+	"cylinder": cylinder_universe
 };
