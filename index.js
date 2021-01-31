@@ -185,6 +185,7 @@ function changeScale(value = null){
 function handleKeyPress(e){
     k = e.which-37;
     if(stop||k<0||k>3)  return;
+    if(!multiverse[universe].pan || !multiverse[universe].pan[k])   return;
     moveGrid([3,7,0,2][k]);
     render(500);
 }
