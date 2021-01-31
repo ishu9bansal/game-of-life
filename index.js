@@ -12,7 +12,7 @@ var width = 1250;
 var height = 650;
 var resolution = 25;
 var universe = "box";
-var mode = "gosper";
+var mode = "empty";
 var scale = 0.2;
 
 // configs
@@ -124,7 +124,7 @@ function update(){
         for(j=0; j<cols; j++){
             var c = 0;
             for(k=0; k<8; k++)
-                c += multiverse[universe].neighbor(i,j,k);    // universe boundary condition
+                c += gridValue(multiverse[universe].neighbor(i,j,k));    // universe boundary condition
             if(c==3||(c==2&&grid[i][j]==1))     // game rule
                 grid[i][j] += 2;
         }
@@ -135,14 +135,23 @@ function update(){
     render(transition/factor);
 }
 
-function moveGrid(x,y){
-    newg = grid;
+function moveGrid(k){
+    newg = [];
     for(i=0; i<rows; i++){
+        var temp = [];
         for(j=0; j<cols; j++){
-            newg[i][j] = grid[(i+y+rows)%rows][(j+x+cols)%cols];
+            temp.push(gridValue(multiverse[universe].neighbor(i,j,k)));
         }
+        newg.push(temp);
     }
     grid = newg;
+}
+
+function gridValue(ij){
+    if(!ij) return 0;
+    var i = (ij[0]+rows)%rows;
+    var j = (ij[1]+cols)%cols;
+    return grid[i][j]%2;
 }
 
 // control data binders
@@ -176,11 +185,9 @@ function changeScale(value = null){
 function handleKeyPress(e){
     k = e.which-37;
     if(stop||k<0||k>3)  return;
-    if(!multiverse[universe].pan)   return;
-    xy = multiverse[universe].pan(k);
-    if(!xy) return;
-    moveGrid(...xy);
-    render(500, true);
+    if(!multiverse[universe].pan || !multiverse[universe].pan[k])   return;
+    moveGrid([3,7,0,2][k]);
+    render(500);
 }
 
 function handleStepForward(){
@@ -342,7 +349,7 @@ function patternRes(pattern){
     ){
         res = Math.floor(Math.min(width/(Math.max(...pattern.x)+2),height/(Math.max(...pattern.y)+2)));
     }
-    if(validate("resolution",res)) return res;
+    if(res>=config.resolution.min)  return res;
     return null;
 }
 
