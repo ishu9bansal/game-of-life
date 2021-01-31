@@ -61,14 +61,48 @@ function mobiusNeighbor(i,j,k){
 }
 
 var mobius_universe = {
-	"name": "Mobius",
+	"name": "Mobius Strip",
 	"pan": mobiusPan,
 	"neighbor": mobiusNeighbor
+}
+
+function weirdPan(k){
+	return null;
+}
+
+function weirdNeighbor(i,j,k){
+	var I = (i+dirs[k]+2*rows)%(2*rows);
+	var J = (j+dirs[k+1]+2*cols)%(2*cols);
+	return grid[J<cols?I%rows:(rows-1-I%rows)][I<rows?J%cols:(cols-1-J%cols)]%2;
+}
+
+var weird_universe = {
+	"name": "Weird",
+	"pan": weirdPan,
+	"neighbor": weirdNeighbor
+}
+
+function kleinPan(k){
+	return null;
+}
+
+function kleinNeighbor(i,j,k){
+	var I = (i+dirs[k]+2*rows)%(2*rows);
+	var J = (j+dirs[k+1]+cols)%cols;
+	return grid[I%rows][I<rows?J:(cols-1-J)]%2;
+}
+
+var klein_universe = {
+	"name": "Klein Bottle",
+	"pan": kleinPan,
+	"neighbor": kleinNeighbor
 }
 
 var multiverse = {
 	"box": box_universe,
 	"torus": torus_universe,
 	"cylinder": cylinder_universe,
-	"mobius": mobius_universe
+	"mobius": mobius_universe,
+	// "weird": weird_universe,	// fucks up corners
+	"klein": klein_universe
 };
