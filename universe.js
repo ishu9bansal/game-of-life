@@ -49,8 +49,26 @@ var cylinder_universe = {
 	"neighbor": cylinderNeighbor
 }
 
+function mobiusPan(k){
+	return null;
+}
+
+function mobiusNeighbor(i,j,k){
+	var J = j+dirs[k+1];
+	if(J<0||J>=cols)	return 0;
+	var I = (i+dirs[k]+2*rows)%(2*rows);
+	return grid[I%rows][I<rows?J:(cols-1-J)]%2;
+}
+
+var mobius_universe = {
+	"name": "Mobius",
+	"pan": mobiusPan,
+	"neighbor": mobiusNeighbor
+}
+
 var multiverse = {
 	"box": box_universe,
 	"torus": torus_universe,
-	"cylinder": cylinder_universe
+	"cylinder": cylinder_universe,
+	"mobius": mobius_universe
 };
