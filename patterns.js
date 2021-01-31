@@ -8,7 +8,7 @@ var gosper_gun = {
 var glider = {
 	"x": [2, 3, 1, 2, 3],
 	"y": [1, 2, 3, 3, 3],
-	"universe": "torus",
+	"universe": "klein",
 	"name": "Glider"
 }
 
@@ -52,6 +52,7 @@ var empty_pattern = {
 var random_pattern = {
 	"scale": true,
 	"call": function(i,j,v){ return Math.random()<v; },
+	"universe": "mobius",
 	"name": "Random"
 };
 
