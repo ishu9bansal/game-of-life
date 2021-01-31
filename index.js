@@ -135,6 +135,18 @@ function update(){
     render(transition/factor);
 }
 
+function moveGrid(k){
+    newg = [];
+    for(i=0; i<rows; i++){
+        var temp = [];
+        for(j=0; j<cols; j++){
+            temp.push(gridValue(multiverse[universe].neighbor(i,j,k)));
+        }
+        newg.push(temp);
+    }
+    grid = newg;
+}
+
 function gridValue(ij){
     if(!ij) return 0;
     var i = (ij[0]+rows)%rows;
@@ -173,10 +185,7 @@ function changeScale(value = null){
 function handleKeyPress(e){
     k = e.which-37;
     if(stop||k<0||k>3)  return;
-    if(!multiverse[universe].pan)   return;
-    newg = multiverse[universe].pan(k, grid);
-    if(!newg || newg.length!=grid.length || !newg.length || newg[0].length!=grid[0].length) return;
-    grid = newg;
+    moveGrid([3,7,0,2][k]);
     render(500);
 }
 
