@@ -4,7 +4,7 @@ var dir4 = [0,-1,0,1,0];
 function boxNeighbor(i,j,k){
 	var I = i+dirs[k];
     var J = j+dirs[k+1];
-    return I>=0&&I<rows&&J>=0&&J<cols ? grid[I][J]%2 : 0;
+    return I>=0&&I<rows&&J>=0&&J<cols ? [I,J] : null;
 }
 
 var box_universe = {
@@ -16,7 +16,7 @@ var box_universe = {
 function torusNeighbor(i,j,k){
     var I = (i+dirs[k]+rows)%rows;
     var J = (j+dirs[k+1]+cols)%cols;
-    return grid[I][J]%2;
+    return [I,J];
 }
 
 function torusPan(k, grid){
@@ -42,13 +42,13 @@ var torus_universe = {
 };
 
 function cylinderPan(k, grid){
-	return k%2?torusPan(k):boxPan(k);
+	return k%2?torusPan(k,grid):null;
 }
 
 function cylinderNeighbor(i,j,k){
 	var I = (i+dirs[k]+rows)%rows;
 	var J = j+dirs[k+1];
-	return I>=0&&I<rows&&J>=0&&J<cols ? grid[I][J]%2 : 0;
+	return I>=0&&I<rows&&J>=0&&J<cols ? [I,J] : null;
 }
 
 var cylinder_universe = {
@@ -65,7 +65,7 @@ function mobiusNeighbor(i,j,k){
 	var J = j+dirs[k+1];
 	if(J<0||J>=cols)	return 0;
 	var I = (i+dirs[k]+2*rows)%(2*rows);
-	return grid[I%rows][I<rows?J:(cols-1-J)]%2;
+	return [I%rows,I<rows?J:(cols-1-J)];
 }
 
 var mobius_universe = {
@@ -81,7 +81,7 @@ function weirdPan(k,grid){
 function weirdNeighbor(i,j,k){
 	var I = (i+dirs[k]+2*rows)%(2*rows);
 	var J = (j+dirs[k+1]+2*cols)%(2*cols);
-	return grid[J<cols?I%rows:(rows-1-I%rows)][I<rows?J%cols:(cols-1-J%cols)]%2;
+	return [J<cols?I%rows:(rows-1-I%rows),I<rows?J%cols:(cols-1-J%cols)];
 }
 
 var weird_universe = {
@@ -97,7 +97,7 @@ function kleinPan(k,grid){
 function kleinNeighbor(i,j,k){
 	var I = (i+dirs[k]+2*rows)%(2*rows);
 	var J = (j+dirs[k+1]+cols)%cols;
-	return grid[I%rows][I<rows?J:(cols-1-J)]%2;
+	return [I%rows,I<rows?J:(cols-1-J)];
 }
 
 var klein_universe = {
@@ -111,6 +111,6 @@ var multiverse = {
 	"torus": torus_universe,
 	"cylinder": cylinder_universe,
 	"mobius": mobius_universe,
-	// "weird": weird_universe,	// fucks up corners
+	"weird": weird_universe,	// fucks up corners
 	"klein": klein_universe
 };

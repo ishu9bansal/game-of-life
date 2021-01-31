@@ -12,7 +12,7 @@ var width = 1250;
 var height = 650;
 var resolution = 25;
 var universe = "box";
-var mode = "gosper";
+var mode = "empty";
 var scale = 0.2;
 
 // configs
@@ -124,7 +124,7 @@ function update(){
         for(j=0; j<cols; j++){
             var c = 0;
             for(k=0; k<8; k++)
-                c += multiverse[universe].neighbor(i,j,k);    // universe boundary condition
+                c += gridValue(multiverse[universe].neighbor(i,j,k));    // universe boundary condition
             if(c==3||(c==2&&grid[i][j]==1))     // game rule
                 grid[i][j] += 2;
         }
@@ -135,6 +135,12 @@ function update(){
     render(transition/factor);
 }
 
+function gridValue(ij){
+    if(!ij) return 0;
+    var i = (ij[0]+rows)%rows;
+    var j = (ij[1]+cols)%cols;
+    return grid[i][j]%2;
+}
 
 // control data binders
 function changeResolution(value = null){
