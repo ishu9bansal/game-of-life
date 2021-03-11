@@ -284,6 +284,7 @@ function handleChange(res = null, r = null, c = null){
 
     // exit squares
     squares.exit()
+    .style('stroke', 'grey')
     .transition().duration(750)
     .attr("x", d => resolution*cols*(1+Math.random()))
     .attr("y", d => resolution*rows*(1+Math.random()))
