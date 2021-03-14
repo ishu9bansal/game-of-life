@@ -283,10 +283,15 @@ function handleChange(res = null, r = null, c = null){
     .style("fill","grey");
 
     // exit squares
-    squares.exit().remove();
+    squares.exit()
+    .style('stroke', 'grey')
+    .transition().duration(750)
+    .attr("x", d => resolution*cols*(1+Math.random()))
+    .attr("y", d => resolution*rows*(1+Math.random()))
+    .remove();
 
     // change squares selection
-    squares = svg.selectAll(".square");
+    squares = svg.selectAll(".square").filter(d => d.x<cols&&d.y<rows);
 
     // transition squares to the correct positions
     render(750, true);
